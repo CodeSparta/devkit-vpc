@@ -48,7 +48,7 @@ resource "aws_route_table_association" "public_route_table_assoc" {
 }
 
 resource "aws_internet_gateway" "inet-gateway" {
-  count          =  length(var.aws_azs)
+  count          =  length(var.aws_azs[0])
   vpc_id = aws_vpc.cluster_vpc.id
 
   tags = merge(

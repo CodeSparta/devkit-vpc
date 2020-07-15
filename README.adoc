@@ -47,7 +47,7 @@ This terraform play is designed to create a working development VPC for the user
 |Public CIDR block
 
 |aws_access_key"
-| abcd
+| abc
 | AWS user api key
 
 |aws_secret_key
