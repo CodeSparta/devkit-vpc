@@ -1,5 +1,5 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: ' Konductor | Shaman VPC | Devkit Utility' 
+- name: ' Konductor | Devkit | Build VPC' 
   hosts: local
   vars:
     module: "devkit-vpc"

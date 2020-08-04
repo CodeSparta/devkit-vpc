@@ -1,5 +1,5 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: ' Konductor | Shaman VPC | Devkit Utility' 
+- name: ' Konductor | Devkit | Destroy VPC'
   hosts: local
   vars:
     module: "devkit-vpc"
@@ -9,24 +9,9 @@
   vars_files:
     - vars/global.yml
 
-#  vars_prompt:
-#    - name: cloud_region
-#      prompt: "Please enter your AWS region"
-#      private: no
-#    - name: cluster_name
-#      prompt: "Please enter your AWS VPC Name"
-#      private: no
-#    - name: aws_access_key
-#      prompt: "Please enter your AWS Access Key ID"
-#      private: no
-#    - name: aws_secret_key
-#      prompt: "Please enter your AWS Access Key Secret"
-#      private: no
-
   tasks:
-
     ####### Terraform Apply
-    - name: '{{ ansible_name_module_cloud }} | terraform | apply'
+    - name: '{{ ansible_name_module_cloud }} | terraform | destroy'
       terraform:
         project_path: "{{ tf_module_path }}"
         variables_file: "{{ tf_module_path }}/global.tfvars"
