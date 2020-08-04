@@ -2,10 +2,10 @@
 - name: ' Konductor | Devkit | Build VPC' 
   hosts: local
   vars:
-    module: "devkit-vpc"
+    module: "build"
     state_provider: "local"
     tf_module_path: "{{ dir_terraform }}/devkit-vpc"
-    ansible_name_module_cloud: " {{ module }}"
+    ansible_name_module: " Konductor | Devkit VPC | {{ module }}"
   vars_files:
     - vars/global.yml
 
@@ -25,13 +25,13 @@
 
   tasks:
 
-    - name: ' Konductor | Shaman VPC | file | Create ~/.aws'
+    - name: '[[ ansible_name_module ]] | file | Create ~/.aws'
       file:
         path: "/root/.aws"
         state: directory
 
     ####### Stage Variables & AWS Creds
-    - name: '{{ ansible_name_module_cloud }} | template | Terraform Vars & aws credentials'
+    - name: '{{ ansible_name_module }} | template | Terraform Vars & aws credentials'
       template:
         src: "{{ item.name }}"
         dest: "{{ item.dest }}"
@@ -41,13 +41,13 @@
         - { mode: '600', name: "templates/aws/credentials.j2", dest: "{{ local_home }}/.aws/credentials"}
 
     ####### Terraform Init
-    - name: '{{ ansible_name_module_cloud }} | shell | terraform init'
+    - name: '{{ ansible_name_module }} | shell | terraform init'
       shell: terraform init
       args:
         chdir: "{{ tf_module_path }}"
 
     ####### Terraform Apply
-    - name: '{{ ansible_name_module_cloud }} | terraform | apply'
+    - name: '{{ ansible_name_module }} | terraform | apply'
       terraform:
         project_path: "{{ tf_module_path }}"
         variables_file: "{{ tf_module_path }}/global.tfvars"
@@ -56,7 +56,7 @@
       register: tf_output
 
 #   ####### Purge SSH known_hosts entries if previous entries found
-#   - name: '{{ ansible_name_module_cloud }} | lineinfile | purge previous known_hosts entries'
+#   - name: '{{ ansible_name_module }} | lineinfile | purge previous known_hosts entries'
 #     lineinfile:
 #       dest: "{{ local_home }}/.ssh/known_hosts"
 #       regexp: "{{ item.regex }}"
