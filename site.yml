@@ -2,9 +2,9 @@
 - name: ' Konductor | Shaman VPC | Devkit Utility' 
   hosts: local
   vars:
-    module: "shaman-vpc"
+    module: "devkit-vpc"
     state_provider: "local"
-    tf_module_path: "{{ dir_terraform }}/shaman-vpc"
+    tf_module_path: "{{ dir_terraform }}/devkit-vpc"
     ansible_name_module_cloud: " {{ module }}"
   vars_files:
     - vars/global.yml
