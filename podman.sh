@@ -1,9 +1,9 @@
 #!/bin/bash -x
+clear
+#   --entrypoint bash \
 sudo podman run -it --rm \
-    --name shaman-vpc --pull always \
-    --volume $(pwd):/root/deploy/terraform/shaman-vpc:z \
-    --volume ${HOME}/.aws:/root/.aws:z \
+    --name shaman-vpc \
     --entrypoint ./site.yml \
-  docker.io/codesparta/konductor \
-    -e cluster_name=${cluster_name} \
-    -e aws_region=${cluster_region}
+    --workdir /root/deploy/terraform/shaman-vpc \
+    --volume $(pwd):/root/deploy/terraform/shaman-vpc:z \
+  docker.io/codesparta/konductor
