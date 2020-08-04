@@ -1,2 +1,4 @@
 .terraform
 global.tfvars
+terraform.tfstate
+terraform.tfstate.backup
