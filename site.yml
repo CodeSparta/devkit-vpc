@@ -8,7 +8,6 @@
     ansible_name_module_cloud: " {{ module }}"
   vars_files:
     - vars/global.yml
-    - vars/govcloud.yml
 
   vars_prompt:
     - name: cloud_region
