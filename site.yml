@@ -25,7 +25,7 @@
 
   tasks:
 
-    - name: '[[ ansible_name_module ]] | file | Create ~/.aws'
+    - name: '{{ ansible_name_module }} | file | Create ~/.aws'
       file:
         path: "/root/.aws"
         state: directory
