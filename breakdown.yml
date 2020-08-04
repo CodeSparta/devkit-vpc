@@ -1,17 +1,17 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: ' Konductor | Devkit | Destroy VPC'
+- name: ' Konductor | Devkit VPC | Destroy'
   hosts: local
   vars:
-    module: "devkit-vpc"
+    module: "destroy"
     state_provider: "local"
     tf_module_path: "{{ dir_terraform }}/devkit-vpc"
-    ansible_name_module_cloud: " {{ module }}"
+    ansible_name_module: " Konductor | Devkit VPC | {{ module }}"
   vars_files:
     - vars/global.yml
 
   tasks:
     ####### Terraform Apply
-    - name: '{{ ansible_name_module_cloud }} | terraform | destroy'
+    - name: '{{ ansible_name_module }} | terraform | {{ module }}'
       terraform:
         project_path: "{{ tf_module_path }}"
         variables_file: "{{ tf_module_path }}/global.tfvars"
