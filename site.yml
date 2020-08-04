@@ -6,6 +6,9 @@
     state_provider: "local"
     tf_module_path: "{{ dir_terraform }}/shaman-vpc"
     ansible_name_module_cloud: " {{ module }}"
+  vars_files:
+    - vars/global.yml
+    - vars/govcloud.yml
 
   tasks:
 
