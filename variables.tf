@@ -5,5 +5,5 @@ variable "default_tags" { default = {} }
 variable "aws_azs" { default = ["a", "b", "c"] }
 variable "vpc_private_subnet_cidrs" { default = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"] }
 variable "vpc_public_subnet_cidrs" { default = ["10.0.7.0/26", "10.0.8.0/26", "10.0.9.0/26"] }
-variable "aws_access_key" { default = "AKIA3L76BYEURYCJTCWD"}
-variable "aws_secret_key" { default = "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"}
+variable "aws_access_key" { default = "aaaaaaaaa"}
+variable "aws_secret_key" { default = "bbbbbbbbb"}
