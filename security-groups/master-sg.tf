@@ -1,6 +1,6 @@
 resource "aws_security_group" "master-sg" {
   name =  "${var.cluster_name}-master-sg"
-  vpc_id =  "${var.vpc_id}"
+  vpc_id =  data.aws_vpc.cluster_vpc.id
 
   tags =  merge(
   var.default_tags,
