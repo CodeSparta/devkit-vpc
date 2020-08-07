@@ -41,30 +41,21 @@
         - { mode: '600', name: "templates/aws/credentials.j2", dest: "{{ local_home }}/.aws/credentials"}
 
     ####### Symlinks
-    - name: '{{ ansible_name_module }} | variable | Create variable symlink'
+    - name: '{{ ansible_name_module }} | variable | Create Provider symlink'
       file:
-        src: "{{ tf_module_path }}/variables.tf"
+        src: "{{ tf_module_path }}/provider.tf"
         dest: "{{ item }}"
         state: link
       loop:
-        - "{{ tf_module_path }}/vpc/variables.tf"
-        - "{{ tf_module_path }}/security-groups/variables.tf"
+        - "{{ tf_module_path }}/vpc/provider.tf"
+        - "{{ tf_module_path }}/security-groups/provider.tf"
 
-    - name: '{{ ansible_name_module }} | variable | Create Provider symlink'
-        file:
-          src: "{{ tf_module_path }}/provider.tf"
-          dest: "{{ item }}"
-          state: link
-        loop:
-          - "{{ tf_module_path }}/vpc/provider.tf"
-          - "{{ tf_module_path }}/security-groups/provider.tf"
-          -
     ####### Terraform Init
     - name: '{{ ansible_name_module }} | shell | terraform init'
       shell: terraform init
       loop:
         - "{{ tf_module_path }}"
-        -
+
     ####### Terraform Apply
     - name: '{{ ansible_name_module }} | terraform | apply'
       terraform:
