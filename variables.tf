@@ -8,3 +8,4 @@ variable "vpc_public_subnet_cidrs" { default = ["10.0.7.0/26", "10.0.8.0/26", "1
 variable "aws_access_key" { default = "aaaaaaaaa"}
 variable "aws_secret_key" { default = "bbbbbbbbb"}
 variable "vpc_id" {}
+variable "vpc_cidr" {default = "" }
