@@ -43,17 +43,19 @@
     ####### Terraform Init
     - name: '{{ ansible_name_module }} | shell | terraform init'
       shell: terraform init
-      args:
-        chdir: "{{ tf_module_path }}"
-
+      loop:
+        - "{{ tf_module_path }}"
+        -
     ####### Terraform Apply
     - name: '{{ ansible_name_module }} | terraform | apply'
       terraform:
-        project_path: "{{ tf_module_path }}"
+        project_path: "{{ tf_module_path }}/main.tf"
         variables_file: "{{ tf_module_path }}/global.tfvars"
         force_init: true
         state: present
       register: tf_output
+
+
 
 #   ####### Purge SSH known_hosts entries if previous entries found
 #   - name: '{{ ansible_name_module }} | lineinfile | purge previous known_hosts entries'
