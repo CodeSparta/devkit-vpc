@@ -6,6 +6,7 @@ resource "aws_instance" "bastion-node" {
   ami           = var.bastion_ami
   instance_type = var.bastion_type
   subnet_id     = aws_subnet.bastion-pub-subnet.id
+  key_name      = var.aws_key
 
   root_block_device { volume_size = var.bastion_disk }
 

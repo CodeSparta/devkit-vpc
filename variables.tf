@@ -13,3 +13,4 @@ variable "bastion_ami" {default = "ami-d281d2b3"}
 variable "bastion_type" {default = "t2.xlarge"}
 variable "bastion_disk" {default = "100"}
 variable "public_subnet_id" { default = "" }
+variable "aws_key" { default = ""}
