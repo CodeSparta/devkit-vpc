@@ -24,12 +24,12 @@ resource "aws_iam_role" "worker_role" {
 }
 EOF
 
-  tags = merge(
-{
-  "Name" = "${var.cluster_name}-worker-role"
-},
-var.tags,
-)
+  tags =  merge(
+  var.default_tags,
+  map(
+    "Name",  "${var.cluster_name}-worker-role"
+    )
+  )
 }
 
 resource "aws_iam_role_policy" "worker_policy" {

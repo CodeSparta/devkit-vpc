@@ -24,12 +24,12 @@ resource "aws_iam_role" "master_role" {
 }
 EOF
 
-  tags = merge(
-{
-  "Name" = "${var.cluster_name}-master-role"
-},
-var.tags,
-)
+  tags =  merge(
+  var.default_tags,
+  map(
+    "Name",  "${var.cluster_name}-master-role"
+    )
+  )
 }
 
 resource "aws_iam_role_policy" "master_policy" {
@@ -54,7 +54,7 @@ policy = <<EOF
       "Action" : [
         "s3:GetObject"
       ],
-      "Resource": "arn:${local.arn}:s3:::*",
+      "Resource": "*",
       "Effect": "Allow"
     },
     {
