@@ -15,7 +15,7 @@ resource "aws_security_group_rule" "master_ingress_all" {
   type              = "ingress"
   security_group_id = aws_security_group.master-sg.id
   protocol    = "all"
-  cidr_blocks = ["0.0.0.0/0", data.aws_vpc.vpc_cidr]
+  cidr_blocks = ["0.0.0.0/0", var.cidr_blocks]
   from_port   = 0
   to_port     = 0
 }
