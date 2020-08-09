@@ -47,3 +47,15 @@ module "iam-roles" {
 
 }
 
+module "bastion-node" {
+  source = "./bastion-node"
+
+  vpc_id = module.vpc.vpc_id
+  cluster_name = var.cluster_name
+  aws_region = var.aws_region
+  default_tags = var.default_tags
+  bastion_ami = var.bastion_ami
+  bastion_disk = var.bastion_disk
+  bastion_type = var.bastion_type
+}
+

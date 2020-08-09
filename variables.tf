@@ -9,3 +9,7 @@ variable "aws_access_key" { default = ""}
 variable "aws_secret_key" { default = ""}
 variable "cluster_domain" { default = "" }
 variable "vpc_id" { default = "" }
+variable "bastion_ami" {default = "ami-d281d2b3"}
+variable "bastion_type" {default = "t2.xlarge"}
+variable "bastion_disk" {default = "100"}
+variable "public_subnet_id" { default = "" }
