@@ -1,6 +1,6 @@
 module "vpc" {
   source = "./vpc"
-
+  cluster_name = var.cluster_name
 }
 
 module "security-groups" {
