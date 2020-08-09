@@ -61,3 +61,16 @@ module "bastion-node" {
   aws_key = var.aws_key
 }
 
+module "registry-node" {
+  source = "./registry-node"
+
+  vpc_id = module.vpc.vpc_id
+  cluster_name = var.cluster_name
+  aws_region = var.aws_region
+  default_tags = var.default_tags
+  vpc_public_subnet_cidrs = var.vpc_private_subnet_cidrs
+  registry_type = var.registry_type
+  rhcos_ami = var.rhcos_ami
+  registry_volume = var.registry_volume
+
+}

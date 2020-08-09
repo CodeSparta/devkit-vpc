@@ -14,3 +14,7 @@ variable "bastion_type" {default = "t2.xlarge"}
 variable "bastion_disk" {default = "100"}
 variable "public_subnet_id" { default = "" }
 variable "aws_key" { default = ""}
+variable "ssh_public_key" {default = "" }
+variable "rhcos_ami" {default = ""}
+variable "registry_type" {default = "m5.xlarge"}
+variable "registry_volume" {default = "120"}
