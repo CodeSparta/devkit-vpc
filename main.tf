@@ -28,3 +28,12 @@ module "iam-roles" {
   default_tags = var.default_tags
 }
 
+module "route-53" {
+  source = "./route-53"
+
+  cluster_name = var.cluster_name
+  aws_region = var.aws_region
+  default_tags = var.default_tags
+
+}
+

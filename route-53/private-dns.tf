@@ -18,7 +18,7 @@ resource "aws_route53_record" "api-int" {
   name = "api-int.${aws_route53_zone.private_zone.name}"
   type = "CNAME"
   zone_id = aws_route53_zone.private_zone.zone_id
-  records = [data.aws_lb.control_plane_int.dns_name]
+  records = ["replaceme"]
   ttl = 300
   }
 
@@ -26,7 +26,7 @@ resource "aws_route53_record" "api" {
   name = "api.${aws_route53_zone.private_zone.name}"
   type = "CNAME"
   zone_id = aws_route53_zone.private_zone.zone_id
-  records = [data.aws_lb.control_plane_int.dns_name]
+  records = ["replaceme"]
   ttl = 300
 }
 
