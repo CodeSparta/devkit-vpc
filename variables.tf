@@ -7,6 +7,5 @@ variable "vpc_private_subnet_cidrs" { default = ["10.0.1.0/24","10.0.2.0/24","10
 variable "vpc_public_subnet_cidrs" { default = ["10.0.7.0/26", "10.0.8.0/26", "10.0.9.0/26"] }
 variable "aws_access_key" { default = ""}
 variable "aws_secret_key" { default = ""}
-variable "vpc_id" {
-  description = "The VPC used to create the private route53 zone."
-}
+variable "cluster_domain" { default = "" }
+variable "vpc_id" { default = "" }

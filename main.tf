@@ -31,9 +31,9 @@ module "iam-roles" {
 module "route-53" {
   source = "./route-53"
 
+  vpc_id = module.vpc.vpc_id
   cluster_name = var.cluster_name
   aws_region = var.aws_region
   default_tags = var.default_tags
-
 }
 

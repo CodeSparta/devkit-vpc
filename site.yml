@@ -22,6 +22,9 @@
     - name: aws_secret_key
       prompt: "Please enter your AWS Access Key Secret"
       private: no
+    - name: cluster_domain
+      prompt: "Please enter the top level Domain space"
+      private: no
 
   tasks:
 
