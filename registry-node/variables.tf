@@ -14,3 +14,5 @@ variable "rhcos_ami" {default = ""}
 variable "registry_type" {default = "m5.xlarge"}
 variable "registry_volume" {default = ""}
 variable "master_sg_ids" {default = "" }
+variable "route53_private_zone_id" {default = ""}
+variable "cluster_domain" { default = "" }

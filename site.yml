@@ -25,6 +25,9 @@
     - name: cluster_domain
       prompt: "Please enter the top level Domain space"
       private: no
+    - name: rhcos_ami
+      prompt: " Please enter the rhcos ami id"
+      private: no
 
   tasks:
 
