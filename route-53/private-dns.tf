@@ -61,7 +61,6 @@ resource "aws_route53_record" "etcd-entries" {
 }
 
 resource "aws_route53_record" "registry" {
-count = 3
 zone_id = aws_route53_zone.private_zone.id
 name    = "registry.${aws_route53_zone.private_zone.name}"
 type    = "A"
