@@ -7,8 +7,5 @@ variable "vpc_private_subnet_cidrs" { default = [""] }
 variable "vpc_public_subnet_cidrs" { default = [""] }
 variable "aws_access_key" { default = ""}
 variable "aws_secret_key" { default = ""}
-variable "vpc_id" {}
+variable "vpc_id" {default = ""}
 variable "vpc_cidr" {default = "" }
-variable "vpc_id" {
-  description = "The VPC used to create the private route53 zone."
-}
