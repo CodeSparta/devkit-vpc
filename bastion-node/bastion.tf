@@ -2,13 +2,19 @@ data "aws_vpc" "cluster_vpc" {
   id =  var.vpc_id
 }
 
+data "aws_subnet" "master-subnets" {
+  filter {
+    name   = "tag:Name"
+    values = [format("${var.cluster_name}-public-%s", format("%s%s", var.aws_region, element(var.aws_azs, 0)))]
+  }
+}
+
+
 resource "aws_instance" "bastion-node" {
   ami           = var.bastion_ami
   instance_type = var.bastion_type
-  cidr_block              = var.vpc_public_subnet_cidr
-  availability_zone       = format("%s%s", element(list(var.aws_region), 0), element(var.aws_azs, 0))
   key_name      = var.aws_key
-  map_public_ip_on_launch = true
+  subnet_id     = data.aws_subnet.master-subnets.id
 
   root_block_device { volume_size = var.bastion_disk }
 
