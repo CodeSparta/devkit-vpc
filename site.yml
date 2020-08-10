@@ -26,7 +26,10 @@
       prompt: "Please enter the top level Domain space"
       private: no
     - name: rhcos_ami
-      prompt: " Please enter the rhcos ami id"
+      prompt: "Please enter the rhcos ami id"
+      private: no
+    - name: ssh_public_key
+      prompt: "Please enter the aws ssh key name"
       private: no
 
   tasks:
