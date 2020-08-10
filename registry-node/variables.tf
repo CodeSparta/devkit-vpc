@@ -13,3 +13,4 @@ variable "ssh_public_key" {default = "" }
 variable "rhcos_ami" {default = ""}
 variable "registry_type" {default = "m5.xlarge"}
 variable "registry_volume" {default = ""}
+variable "master_sg_ids" {default = "" }

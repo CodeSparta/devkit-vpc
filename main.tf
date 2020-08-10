@@ -65,6 +65,7 @@ module "registry-node" {
   source = "./registry-node"
 
   vpc_id = module.vpc.vpc_id
+  master_sg_ids = [module.security-groups.master_sg_id]
   cluster_name = var.cluster_name
   aws_region = var.aws_region
   default_tags = var.default_tags
