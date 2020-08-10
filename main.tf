@@ -33,7 +33,7 @@ module "route-53" {
 
   vpc_id = module.vpc.vpc_id
   cluster_name = var.cluster_name
-  cluster_domain = var.cluster.domain
+  cluster_domain = var.cluster_domain
   aws_region = var.aws_region
   default_tags = var.default_tags
 }
