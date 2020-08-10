@@ -8,6 +8,10 @@ This terraform play is designed to create a working development VPC for the user
 - s3 vpc_endpoint
 - ec2 vpc_endpoint
 - elb vpc_endpoint
+- Route 53 private zone
+- Security Groups
+- Bastion ec2 Instance
+- Registry ec2 Instance
 
 == Setup the variable file
 .Table Mandatory Variables
