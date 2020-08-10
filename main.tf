@@ -38,15 +38,6 @@ module "route-53" {
   default_tags = var.default_tags
 }
 
-module "iam-roles" {
-  source = "./iam-roles"
-
-  cluster_name = var.cluster_name
-  aws_region = var.aws_region
-  default_tags = var.default_tags
-
-}
-
 module "bastion-node" {
   source = "./bastion-node"
 
