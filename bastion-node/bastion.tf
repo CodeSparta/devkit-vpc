@@ -1,3 +1,6 @@
+data "aws_vpc" "cluster_vpc" {
+  id =  var.vpc_id
+}
 resource "aws_instance" "bastion-node" {
   ami           = var.bastion_ami
   instance_type = var.bastion_type
