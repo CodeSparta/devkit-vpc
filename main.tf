@@ -38,6 +38,8 @@ module "route-53" {
   default_tags = var.default_tags
 }
 
+/*
+#ToDo "issues getting the subnet"
 module "bastion-node" {
   source = "./bastion-node"
 
@@ -52,6 +54,7 @@ module "bastion-node" {
   aws_key = var.aws_key
 }
 
+#ToDo "issues getting the subnet"
 module "registry-node" {
   source = "./registry-node"
 
@@ -65,3 +68,4 @@ module "registry-node" {
   rhcos_ami = var.rhcos_ami
   registry_volume = var.registry_volume
 }
+*/
