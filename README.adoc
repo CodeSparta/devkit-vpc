@@ -74,12 +74,17 @@ Download the git to your local machine:
 ```
 git clone repo
 cd into git repo
+bash tools/dev.sh
+./site.yml -vv
+    Fill out the prompts
 
 ```
 
 == Step 2
-To destroy the VPC run:
+To destroy the IaC run:
 ```
-terraform destroy
+cd into git repo
+bash tools/dev.sh
+./breakdown.yml -vv
 ```
-All resources must be deleted prior to destroying the vpc.
+All resources not created from the IaC must be deleted prior to destroying the vpc.
