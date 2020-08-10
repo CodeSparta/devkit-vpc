@@ -10,6 +10,8 @@ This terraform play is designed to create a working development VPC for the user
 - elb vpc_endpoint
 - Route 53 private zone
 - Security Groups
+
+#TODO
 - Bastion ec2 Instance
 - Registry ec2 Instance
 
@@ -60,11 +62,19 @@ This terraform play is designed to create a working development VPC for the user
 
 |===
 
+== Prereqs
+
+The user will need to provide the following:
+
+- Aws ssh key for the bastion
+- AMI Ids for Rhel 8 and Rhcos images
+
 == Step 1
-Download the git to your local machine with terraform. Fill out the variable file and then run the following commands:
+Download the git to your local machine:
 ```
-terraform init
-terraform apply
+git clone repo
+cd into git repo
+
 ```
 
 == Step 2
