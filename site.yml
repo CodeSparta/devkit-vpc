@@ -29,6 +29,9 @@
       prompt: "Please enter the rhcos ami id"
       private: no
     - name: ssh_public_key
+      prompt: "Please enter the aws public key string"
+      private: no
+    - name: aws_ssh_key
       prompt: "Please enter the aws ssh key name"
       private: no
 

@@ -12,4 +12,4 @@ variable "vpc_cidr" {default = "" }
 variable "bastion_ami" {}
 variable "bastion_type" {}
 variable "bastion_disk" {}
-variable "aws_key" { default = ""}
+variable "aws_ssh_key" { default = ""}

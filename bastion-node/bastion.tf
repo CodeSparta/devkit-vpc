@@ -26,7 +26,7 @@ resource "aws_instance" "bastion-node" {
   ami           = var.bastion_ami
   instance_type = var.bastion_type
   subnet_id     = local.instance_subnet_id
-  key_name      = var.aws_key
+  key_name      = var.aws_ssh_key
   root_block_device { volume_size = var.bastion_disk }
 
   tags = merge(
