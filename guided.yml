@@ -9,31 +9,31 @@
   vars_files:
     - vars/global.yml
 
-# vars_prompt:
-#   - name: cloud_region
-#     prompt: "Please enter your AWS region"
-#     private: no
-#   - name: cluster_name
-#     prompt: "Please enter your AWS VPC Name"
-#     private: no
-#   - name: aws_access_key
-#     prompt: "Please enter your AWS Access Key ID"
-#     private: no
-#   - name: aws_secret_key
-#     prompt: "Please enter your AWS Access Key Secret"
-#     private: no
-#   - name: cluster_domain
-#     prompt: "Please enter the top level Domain space"
-#     private: no
-#   - name: rhcos_ami
-#     prompt: "Please enter the rhcos ami id"
-#     private: no
-#   - name: ssh_public_key
-#     prompt: "Please enter the aws public key string"
-#     private: no
-#   - name: aws_ssh_key
-#     prompt: "Please enter the aws ssh key name"
-#     private: no
+  vars_prompt:
+    - name: cloud_region
+      prompt: "Please enter your AWS region"
+      private: no
+    - name: cluster_name
+      prompt: "Please enter your AWS VPC Name"
+      private: no
+    - name: aws_access_key
+      prompt: "Please enter your AWS Access Key ID"
+      private: no
+    - name: aws_secret_key
+      prompt: "Please enter your AWS Access Key Secret"
+      private: no
+    - name: cluster_domain
+      prompt: "Please enter the top level Domain space"
+      private: no
+    - name: rhcos_ami
+      prompt: "Please enter the rhcos ami id"
+      private: no
+    - name: ssh_public_key
+      prompt: "Please enter the aws public key string"
+      private: no
+    - name: aws_ssh_key
+      prompt: "Please enter the aws ssh key name"
+      private: no
 
   tasks:
 
