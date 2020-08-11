@@ -65,4 +65,5 @@ module "registry-node" {
   vpc_private_subnet_cidrs = var.vpc_private_subnet_cidrs
   rhcos_ami = var.rhcos_ami
   registry_volume = var.registry_volume
+  ssh_public_key = var.ssh_public_key
 }
