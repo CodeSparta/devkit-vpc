@@ -9,7 +9,7 @@
   vars_files:
     - vars/global.yml
 
-vars_prompt:
+  vars_prompt:
   - name: cloud_region
     prompt: "Please enter your AWS region"
     private: no
