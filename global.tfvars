@@ -1,8 +1,0 @@
-aws_region = "us-gov-west-1"
-cluster_name = "iamgroot"
-aws_access_key = "AKIA3L76BYEU5OBVGK6Z"
-aws_secret_key = "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"
-cluster_domain = "am.groot"
-ssh_public_key = "id_rsa_sparta"
-rhcos_ami = "ami-e06e5081"
-registry_type = "m5.xlarge"
