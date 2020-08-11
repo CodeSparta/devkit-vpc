@@ -10,7 +10,7 @@ variable "aws_secret_key" { default = ""}
 variable "vpc_id" {}
 variable "vpc_cidr" {default = "" }
 variable "ssh_public_key" {
-  type = "string"
+  type = string
   default = ""
 }
 variable "rhcos_ami" {default = ""}
