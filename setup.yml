@@ -10,7 +10,7 @@
     - vars/global.yml
 
   vars_prompt:
-  - name: cloud_region
+  - name: aws_cloud_region
     prompt: "Please enter your AWS region"
     private: no
   #   - name: cluster_name
