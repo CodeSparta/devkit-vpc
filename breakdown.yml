@@ -14,7 +14,7 @@
     - name: '{{ ansible_name_module }} | terraform | {{ module }}'
       terraform:
         project_path: "{{ tf_module_path }}"
-#        variables_file: "{{ tf_module_path }}/global.tfvars"
+        variables_file: "{{ tf_module_path }}/global.tfvars"
         force_init: true
         state: absent
       register: tf_output
@@ -22,7 +22,7 @@
     - name: '{{ ansible_name_module }} | terraform | {{ module }}'
       terraform:
         project_path: "{{ tf_module_path }}"
-#        variables_file: "{{ tf_module_path }}/global.tfvars"
+        variables_file: "{{ tf_module_path }}/global.tfvars"
         force_init: true
         state: absent
       register: tf_output2
