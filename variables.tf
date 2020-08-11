@@ -1,8 +1,3 @@
-// Set aws keys
-variable "aws_access_key" { default = "xxxxxxxxxx"}
-variable "aws_secret_key" { default = "XXXXXXXXXX"}
-variable "aws_region" { default = "us-gov-west-1" }
-
 // Declare Preconfigured AWS Account SSH Private Key Name
 // https://docs.aws.amazon.com/ground-station/latest/ug/create-ec2-ssh-key-pair.html
 variable "aws_ssh_key" {
@@ -41,3 +36,8 @@ variable "bastion_disk" {default = "100"}
 variable "registry_volume" {default = "120"}
 variable "public_subnet_id" { default = "" }
 variable "master_sg_ids" {default = "" }
+
+// Defaults are written to credentials leave blank
+variable "aws_access_key" { default = "xxxxxxxxxx"}
+variable "aws_secret_key" { default = "XXXXXXXXXX"}
+variable "aws_region" { default = "" }
