@@ -1,5 +1,5 @@
 resource "aws_vpc" "cluster_vpc" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block       = var.cidr_blocks
   instance_tenancy = "default"
   enable_dns_support = true
   enable_dns_hostnames = true

@@ -22,6 +22,15 @@
     - name: aws_secret_key
       prompt: "Please enter your AWS Access Key Secret"
       private: no
+    - name: cluster_domain
+      prompt: "Please enter the top level Domain space"
+      private: no
+    - name: rhcos_ami
+      prompt: "Please enter the rhcos ami id"
+      private: no
+    - name: ssh_public_key
+      prompt: "Please enter the aws ssh key name"
+      private: no
 
   tasks:
 
@@ -40,11 +49,21 @@
         - { mode: '755', name: "templates/terraform/global.tfvars.j2", dest: "{{ tf_module_path }}/global.tfvars"}
         - { mode: '600', name: "templates/aws/credentials.j2", dest: "{{ local_home }}/.aws/credentials"}
 
+    ####### Symlinks
+    - name: '{{ ansible_name_module }} | variable | Create Provider symlink'
+      file:
+        src: "{{ tf_module_path }}/provider.tf"
+        dest: "{{ item }}"
+        state: link
+      loop:
+        - "{{ tf_module_path }}/vpc/provider.tf"
+        - "{{ tf_module_path }}/security-groups/provider.tf"
+
     ####### Terraform Init
     - name: '{{ ansible_name_module }} | shell | terraform init'
       shell: terraform init
-      args:
-        chdir: "{{ tf_module_path }}"
+      loop:
+        - "{{ tf_module_path }}"
 
     ####### Terraform Apply
     - name: '{{ ansible_name_module }} | terraform | apply'
@@ -54,6 +73,8 @@
         force_init: true
         state: present
       register: tf_output
+
+
 
 #   ####### Purge SSH known_hosts entries if previous entries found
 #   - name: '{{ ansible_name_module }} | lineinfile | purge previous known_hosts entries'

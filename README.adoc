@@ -8,6 +8,12 @@ This terraform play is designed to create a working development VPC for the user
 - s3 vpc_endpoint
 - ec2 vpc_endpoint
 - elb vpc_endpoint
+- Route 53 private zone
+- Security Groups
+
+#TODO
+- Bastion ec2 Instance
+- Registry ec2 Instance
 
 == Setup the variable file
 .Table Mandatory Variables
@@ -56,16 +62,29 @@ This terraform play is designed to create a working development VPC for the user
 
 |===
 
+== Prereqs
+
+The user will need to provide the following:
+
+- Aws ssh key for the bastion
+- AMI Ids for Rhel 8 and Rhcos images
+
 == Step 1
-Download the git to your local machine with terraform. Fill out the variable file and then run the following commands:
+Download the git to your local machine:
 ```
-terraform init
-terraform apply
+git clone repo
+cd into git repo
+bash tools/dev.sh
+./site.yml -vv
+    Fill out the prompts
+
 ```
 
 == Step 2
-To destroy the VPC run:
+To destroy the IaC run:
 ```
-terraform destroy
+cd into git repo
+bash tools/dev.sh
+./breakdown.yml -vv
 ```
-All resources must be deleted prior to destroying the vpc.
+All resources not created from the IaC must be deleted prior to destroying the vpc.
