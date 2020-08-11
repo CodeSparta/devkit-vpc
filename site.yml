@@ -61,6 +61,10 @@
       loop:
         - "{{ tf_module_path }}/vpc/provider.tf"
         - "{{ tf_module_path }}/security-groups/provider.tf"
+        - "{{ tf_module_path }}/iam-roles/provider.tf"
+        - "{{ tf_module_path }}/bastion-node/provider.tf"
+        - "{{ tf_module_path }}/registry-node/provider.tf"
+        - "{{ tf_module_path }}/route-53/provider.tf"
 
     ####### Terraform Init
     - name: '{{ ansible_name_module }} | shell | terraform init'
@@ -72,7 +76,7 @@
     - name: '{{ ansible_name_module }} | terraform | apply'
       terraform:
         project_path: "{{ tf_module_path }}"
-        variables_file: "{{ tf_module_path }}/global.tfvars"
+#        variables_file: "{{ tf_module_path }}/global.tfvars"
         force_init: true
         state: present
       register: tf_output
