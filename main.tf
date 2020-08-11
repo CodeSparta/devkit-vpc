@@ -50,7 +50,7 @@ module "bastion-node" {
   bastion_disk = var.bastion_disk
   bastion_type = var.bastion_type
   vpc_public_subnet_cidrs = var.vpc_public_subnet_cidrs
-  aws_key = var.aws_ssh_key
+  aws_ssh_key = var.aws_ssh_key
 }
 
 module "registry-node" {
