@@ -88,12 +88,6 @@ Download the git to your local machine:
 git clone repo
 cd into git repo
 
-- Setup your aws credentials 
-mkdir /root/.aws
-cp templates/aws/
-cp templates/aws/credentials.j2 /root/.aws/credentials
-vi /root/.aws/credentials
-
 - Setup your variables.tf
 vi variables.tf
 
