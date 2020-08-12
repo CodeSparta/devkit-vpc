@@ -34,7 +34,7 @@ resource "aws_instance" "registry-node" {
 
   root_block_device { volume_size = var.registry_volume }
   security_groups = var.master_sg_ids
-  associate_public_ip_address = false
+  associate_public_ip_address = true
 
   tags = merge(
   var.default_tags,
