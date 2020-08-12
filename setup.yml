@@ -9,19 +9,19 @@
   vars_files:
     - vars/global.yml
 
-  vars_prompt:
-  - name: aws_cloud_region
-    prompt: "Please enter your AWS region"
-    private: no
+ #vars_prompt:
+  # name: aws_cloud_region
+  # prompt: "Please enter your AWS region"
+  # private: no
   #   - name: cluster_name
   #     prompt: "Please enter your AWS VPC Name"
   #     private: no
-  - name: aws_access_key
-    prompt: "Please enter your AWS Access Key ID"
-    private: no
-  - name: aws_secret_key
-    prompt: "Please enter your AWS Access Key Secret"
-    private: no
+  # name: aws_access_key
+  # prompt: "Please enter your AWS Access Key ID"
+  # private: no
+  # name: aws_secret_key
+  # prompt: "Please enter your AWS Access Key Secret"
+  # private: no
   #   - name: cluster_domain
   #     prompt: "Please enter the top level Domain space"
   #     private: no

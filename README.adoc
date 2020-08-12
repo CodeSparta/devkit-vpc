@@ -99,7 +99,7 @@ vi variables.tf
 
 - exec into the container and deploy
 bash tools/dev.sh
-./site.yml -vv
+./devkit-build-vpc.sh -vv -e aws_access_key=xxxxxxxxxxxxx -e aws_secret_key=XXXXXXXXXXXXXXXXX -e aws_cloud_region=us-gov-west-1
     
 
 ```

@@ -1,0 +1,13 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: ' Konductor | Devkit | Build VPC' 
+  hosts: local
+  vars:
+    module: "build"
+    state_provider: "local"
+    tf_module_path: "{{ dir_terraform }}/devkit-vpc"
+    ansible_name_module: " Konductor | Devkit VPC | {{ module }}"
+  vars_files:
+    - vars/global.yml
+
+- import_playbook: setup.yml
+- import_playbook: run.yml
