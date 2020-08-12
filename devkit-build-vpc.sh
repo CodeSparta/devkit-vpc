@@ -1,5 +1,6 @@
 #!/bin/bash
 clear
+mkdir aws 2>/dev/null
 #sudo rm -rf terraform.tfstate* .terraform
 sudo podman run -it --rm \
     --name devkit-vpc \
