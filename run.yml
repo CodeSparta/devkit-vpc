@@ -14,18 +14,18 @@
   tasks:
 
     ####### Symlinks
-    - name: '{{ ansible_name_module }} | variable | Create Provider symlink'
-      file:
-        src: "{{ tf_module_path }}/provider.tf"
-        dest: "{{ item }}"
-        state: link
-      loop:
-        - "{{ tf_module_path }}/vpc/provider.tf"
-        - "{{ tf_module_path }}/security-groups/provider.tf"
-        - "{{ tf_module_path }}/iam-roles/provider.tf"
-        - "{{ tf_module_path }}/bastion-node/provider.tf"
-        - "{{ tf_module_path }}/registry-node/provider.tf"
-        - "{{ tf_module_path }}/route-53/provider.tf"
+#   - name: '{{ ansible_name_module }} | variable | Create Provider symlink'
+#     file:
+#       src: "{{ tf_module_path }}/provider.tf"
+#       dest: "{{ item }}"
+#       state: link
+#     loop:
+#       - "{{ tf_module_path }}/vpc/provider.tf"
+#       - "{{ tf_module_path }}/security-groups/provider.tf"
+#       - "{{ tf_module_path }}/iam-roles/provider.tf"
+#       - "{{ tf_module_path }}/bastion-node/provider.tf"
+#       - "{{ tf_module_path }}/registry-node/provider.tf"
+#       - "{{ tf_module_path }}/route-53/provider.tf"
 
     ####### Terraform Init
     - name: '{{ ansible_name_module }} | shell | terraform init'
