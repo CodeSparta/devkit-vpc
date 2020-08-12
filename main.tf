@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "us-gov-west-1"
+}
+
 module "vpc" {
   source = "./vpc"
 
@@ -55,10 +59,12 @@ module "bastion-node" {
 
 module "registry-node" {
   source = "./registry-node"
+  depends_on = [module.route-53]
 
   vpc_id = module.vpc.vpc_id
   master_sg_ids = [module.security-groups.master_sg_id]
   cluster_name = var.cluster_name
+  cluster_domain = var.cluster_domain
   aws_region = var.aws_region
   default_tags = var.default_tags
   registry_type = var.registry_type
