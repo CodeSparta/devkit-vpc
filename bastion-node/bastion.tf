@@ -29,6 +29,8 @@ resource "aws_instance" "bastion-node" {
   key_name      = var.aws_ssh_key
   root_block_device { volume_size = var.bastion_disk }
 
+  security_groups = var.master_sg_ids
+
   tags = merge(
   var.default_tags,
   map(
