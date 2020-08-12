@@ -10,23 +10,44 @@ This terraform play is designed to create a working development VPC for the user
 - elb vpc_endpoint
 - Route 53 private zone
 - Security Groups
-
-#TODO
 - Bastion ec2 Instance
 - Registry ec2 Instance
+
+== Requirement
+- Setup your aws credentials 
 
 == Setup the variable file
 .Table Mandatory Variables
 |===
 | Variable   | Default | Comments (type)
 
+|aws_ssh_key
+|abc
+|AWS user key name
+
+|ssh_public_key
+|string
+|Public ssh key. Can be drived from cat /home/ec2-user/authorized_keys
+
+|rhcos_ami
+|ami-XXXXXXXX
+|RH CoreOS AMI ID
+
+|vpc_id
+|vpc-name
+|The vpc name
+
+|cluster_name
+|cluster
+|The cluster name
+
+|cluster_domain
+|example.io
+|The cluster domain
+
 |cidr_blocks
 |10.0.0.0/16
 |Any private cidr scheme
-
-|cluster_name
-|example
-|The vpc name
 
 |aws_region
 |us-gov-west-1
@@ -52,14 +73,6 @@ This terraform play is designed to create a working development VPC for the user
 |10.0.7.0/26", "10.0.8.0/26", "10.0.9.0/26"
 |Public CIDR block
 
-|aws_access_key"
-| abc
-| AWS user api key
-
-|aws_secret_key
-|xzy
-|AWS user secret key
-
 |===
 
 == Prereqs
@@ -74,9 +87,20 @@ Download the git to your local machine:
 ```
 git clone repo
 cd into git repo
+
+- Setup your aws credentials 
+mkdir /root/.aws
+cp templates/aws/
+cp templates/aws/credentials.j2 /root/.aws/credentials
+vi /root/.aws/credentials
+
+- Setup your variables.tf
+vi variables.tf
+
+- exec into the container and deploy
 bash tools/dev.sh
 ./site.yml -vv
-    Fill out the prompts
+    
 
 ```
 
