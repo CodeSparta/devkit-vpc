@@ -1,6 +1,6 @@
 #!/bin/bash -x
 clear
-#   --entrypoint bash \
+mkdir aws 2>/dev/null
 sudo podman run -it --rm \
     --pull always \
     --name devkit-vpc \
