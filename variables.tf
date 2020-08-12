@@ -7,7 +7,7 @@ variable "aws_ssh_key" {default = ""}
 // For example cat ~/.ssh/id_rsa.pub or your key of choice
 variable "ssh_public_key" {
   type = string
-  default = "aws_acct_key_name"
+  default = "public_key_string"
 }
 
 // Set RH CoreOS AMI ID
