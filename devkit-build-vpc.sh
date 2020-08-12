@@ -1,7 +1,6 @@
 #!/bin/bash
 clear
-mkdir aws
-sudo rm -rf terraform.tfstate* .terraform
+#sudo rm -rf terraform.tfstate* .terraform
 sudo podman run -it --rm \
     --name devkit-vpc \
     --entrypoint ./site.yml \
