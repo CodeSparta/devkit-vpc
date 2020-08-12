@@ -1,13 +1,14 @@
+// Declare Preconfigured AWS Account SSH Private Key Name
+// https://docs.aws.amazon.com/ground-station/latest/ug/create-ec2-ssh-key-pair.html
+variable "aws_ssh_key" {default = ""}
+
+
 // COPY & PASTE full id-rsa string.
 // For example cat ~/.ssh/id_rsa.pub or your key of choice
-variable "aws_ssh_key" {
+variable "ssh_public_key" {
   type = string
   default = "aws_acct_key_name"
 }
-
-// Declare Preconfigured AWS Account SSH Private Key Name
-// https://docs.aws.amazon.com/ground-station/latest/ug/create-ec2-ssh-key-pair.html
-variable "ssh_public_key" {default = "" }
 
 // Set RH CoreOS AMI ID
 variable "rhcos_ami" {default = ""}
