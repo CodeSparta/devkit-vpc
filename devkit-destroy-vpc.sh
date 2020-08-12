@@ -5,4 +5,5 @@ sudo podman run -it --rm \
     --entrypoint ./breakdown.yml \
     --workdir /root/deploy/terraform/devkit-vpc \
     --volume $(pwd):/root/deploy/terraform/devkit-vpc:z \
+    --volume $(pwd)/aws:/root/.aws:z \
   docker.io/codesparta/konductor
