@@ -2,6 +2,7 @@
 clear
 #   --entrypoint bash \
 sudo podman run -it --rm \
+    --pull always \
     --name devkit-vpc \
     --entrypoint bash \
     --workdir /root/deploy/terraform/devkit-vpc \
