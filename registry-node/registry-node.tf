@@ -2,12 +2,12 @@ data "aws_vpc" "cluster_vpc" {
   id =  var.vpc_id
 }
 
-data "aws_subnet_ids" "private" {
+data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.cluster_vpc.id
 
   filter {
     name 	= "tag:Name"
-    values	= ["*private*"]
+    values	= ["*public*"]
   }
 }
 
@@ -16,8 +16,8 @@ resource "random_id" "index" {
 }
 
 locals {
-  subnet_ids_list	= tolist(data.aws_subnet_ids.private.ids)
-  subnet_ids_random_index	= random_id.index.dec % length(data.aws_subnet_ids.private.ids)
+  subnet_ids_list	= tolist(data.aws_subnet_ids.public.ids)
+  subnet_ids_random_index	= random_id.index.dec % length(data.aws_subnet_ids.public.ids)
   instance_subnet_id		= local.subnet_ids_list[local.subnet_ids_random_index]
 }
 
@@ -34,6 +34,7 @@ resource "aws_instance" "registry-node" {
 
   root_block_device { volume_size = var.registry_volume }
   security_groups = var.master_sg_ids
+  associate_public_ip_address = false
 
   tags = merge(
   var.default_tags,
