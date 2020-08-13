@@ -85,9 +85,8 @@ The user will need to provide the following:
 == Step 1
 Download the git to your local machine:
 ```
-git clone repo
-cd into git repo
-
+git clone https://github.com/CodeSparta/devkit-vpc.git
+cd devkit-vpc
 - Setup your variables.tf
 vi variables.tf
 
