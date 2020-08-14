@@ -16,7 +16,7 @@ variable "rhcos_ami" {default = ""}
 // VPC & Domain Naming
 variable "vpc_id" { default = "sparta" }
 variable "cluster_name" { default = "sparta" }
-variable "cluster_domain" { default = "cloud.dev" }
+variable "cluster_domain" { default = "redhat.io" }
 
 /*
   END USER CUSTOMIZATION
