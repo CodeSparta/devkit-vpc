@@ -7,5 +7,5 @@ output "worker_sg_id" {
 }
 
 output "registry_sg_id" {
-  value = aws_security_group.worker-sg.id
+  value = aws_security_group.registry-sg.id
 }
