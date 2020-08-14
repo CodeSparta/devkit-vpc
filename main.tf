@@ -63,7 +63,7 @@ module "registry-node" {
   depends_on = [module.route-53]
 
   vpc_id = module.vpc.vpc_id
-  master_sg_ids = [module.security-groups.master_sg_id]
+  registry_sg_ids = [module.security-groups.registry_sg_id]
   cluster_name = var.cluster_name
   cluster_domain = var.cluster_domain
   aws_region = var.aws_region
