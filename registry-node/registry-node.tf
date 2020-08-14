@@ -33,7 +33,7 @@ resource "aws_instance" "registry-node" {
   user_data = "{\"ignition\":{\"config\":{},\"security\":{\"tls\":{}},\"timeouts\":{},\"version\":\"2.2.0\"},\"networkd\":{},\"passwd\":{\"users\":[{\"name\":\"core\",\"sshAuthorizedKeys\":[\"${var.ssh_public_key}}\"]}]},\"storage\":{},\"systemd\":{}}"
 
   root_block_device { volume_size = var.registry_volume }
-  security_groups = var.master_sg_ids
+  security_groups = var.registry_sg_ids
   associate_public_ip_address = true
 
   tags = merge(
