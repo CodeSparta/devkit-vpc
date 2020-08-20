@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-gov-west-1"
+  region = var.aws_region
 }
 
 module "vpc" {
