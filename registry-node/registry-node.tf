@@ -30,7 +30,7 @@ resource "aws_instance" "registry-node" {
   ami = var.rhcos_ami
   instance_type = var.registry_type
   subnet_id = local.instance_subnet_id
-  user_data = "{\"ignition\":{\"config\":{},\"security\":{\"tls\":{}},\"timeouts\":{},\"version\":\"2.2.0\"},\"networkd\":{},\"passwd\":{\"users\":[{\"name\":\"core\",\"sshAuthorizedKeys\":[\"${var.ssh_public_key}}\"]}]},\"storage\":{},\"systemd\":{}}"
+  user_data = "{\"ignition\":{\"config\":{},\"security\":{\"tls\":{}},\"timeouts\":{},\"version\":\"2.2.0\"},\"networkd\":{},\"passwd\":{\"users\":[{\"name\":\"core\",\"sshAuthorizedKeys\":[\"${var.ssh_public_key}\"]}]},\"storage\":{},\"systemd\":{}}"
 
   root_block_device { volume_size = var.registry_volume }
   security_groups = var.registry_sg_ids
