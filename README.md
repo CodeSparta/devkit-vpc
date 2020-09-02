@@ -1,4 +1,5 @@
 # Development-IaC
+== First Rule of DevKit [we dont talk about devkit](https://www.urbandictionary.com/define.php?term=fight%20club)
 
 == Summary
 This terraform play is designed to create a working development VPC for the user. It will create the following resources:
