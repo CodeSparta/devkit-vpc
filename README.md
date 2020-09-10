@@ -3,17 +3,13 @@
 == [DISCLAIMER](https://github.com/CodeSparta/devkit-vpc/blob/master/DISCLAIMER.md)    
 
 == Summary
-This terraform play is designed to create a working development VPC for the user. It will create the following resources:
+This terraform play is designed to only deplay a development VPC for a user. The following resources will be created:
 
 - Three Public subnets
 - Three Private subnets "no nat to simulate airgapped"
 - s3 vpc_endpoint
 - ec2 vpc_endpoint
 - elb vpc_endpoint
-- Route 53 private zone
-- Security Groups
-- Bastion ec2 Instance
-- Registry ec2 Instance
 
 == Requirement
 - Setup your aws credentials 
@@ -31,10 +27,6 @@ This terraform play is designed to create a working development VPC for the user
 |string
 |Public ssh key. Can be drived from cat /home/ec2-user/authorized_keys
 
-|rhcos_ami
-|ami-XXXXXXXX
-|RH CoreOS AMI ID
-
 |vpc_id
 |vpc-name
 |The vpc name
@@ -44,8 +36,8 @@ This terraform play is designed to create a working development VPC for the user
 |The cluster name
 
 |cluster_domain
-|example.io
-|The cluster domain
+|cluster.example.io
+|The fully qualified domain name with cluster sub-domain
 
 |cidr_blocks
 |10.0.0.0/16
@@ -79,13 +71,8 @@ This terraform play is designed to create a working development VPC for the user
 
 == Prereqs
 
-The user will need to provide the following:
-
-- Aws ssh key for the bastion
-- AMI Ids for Rhel 8 and Rhcos images
-
 == Step 1
-Download the git to your local machine:
+Download the project to your local machine:
 ```
 git clone https://github.com/CodeSparta/devkit-vpc.git
 cd devkit-vpc
