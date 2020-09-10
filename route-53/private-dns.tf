@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "private_zone" {
-  name =  "${var.cluster_name}.${var.cluster_domain}"
+  name =  "${var.cluster_domain}"
   vpc {
     vpc_id =  data.aws_vpc.cluster_vpc.id
   }
