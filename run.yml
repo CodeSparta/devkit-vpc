@@ -33,11 +33,6 @@
       loop:
         - "{{ tf_module_path }}"
         - "{{ tf_module_path }}/vpc"
-        - "{{ tf_module_path }}/security-groups"
-        - "{{ tf_module_path }}/iam-roles"
-        - "{{ tf_module_path }}/bastion-node"
-        - "{{ tf_module_path }}/registry-node"
-        - "{{ tf_module_path }}/route-53"
 
     ####### Terraform Apply
     - name: '{{ ansible_name_module }} | terraform | apply'
