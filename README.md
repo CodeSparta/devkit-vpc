@@ -1,109 +1,46 @@
 # Development-IaC
-== First Rule of DevKit [we dont talk about devkit](https://www.urbandictionary.com/define.php?term=fight%20club)    
-== [DISCLAIMER](https://github.com/CodeSparta/devkit-vpc/blob/master/DISCLAIMER.md)    
+### First Rule of DevKit [we dont talk about devkit](https://www.urbandictionary.com/define.php?term=fight%20club)    
+### [DISCLAIMER](https://github.com/CodeSparta/devkit-vpc/blob/master/DISCLAIMER.md)    
 
-== Summary
+## Summary
 This terraform play is designed to create a working development VPC for the user. It will create the following resources:
 
 - Three Public subnets
 - Three Private subnets "no nat to simulate airgapped"
-- s3 vpc_endpoint
-- ec2 vpc_endpoint
-- elb vpc_endpoint
+- s3 vpc\_endpoint
+- ec2 vpc\_endpoint
+- elb vpc\_endpoint
+- sts vpc\_endpoint
 - Route 53 private zone
 - Security Groups
 - Bastion ec2 Instance
 - Registry ec2 Instance
 
-== Requirement
-- Setup your aws credentials 
-
-== Setup the variable file
-.Table Mandatory Variables
-|===
-| Variable   | Default | Comments (type)
-
-|aws_ssh_key
-|abc
-|AWS user key name
-
-|ssh_public_key
-|string
-|Public ssh key. Can be drived from cat /home/ec2-user/authorized_keys
-
-|rhcos_ami
-|ami-XXXXXXXX
-|RH CoreOS AMI ID
-
-|vpc_id
-|vpc-name
-|The vpc name
-
-|cluster_name
-|cluster
-|The cluster name
-
-|cluster_domain
-|example.io
-|The cluster domain
-
-|cidr_blocks
-|10.0.0.0/16
-|Any private cidr scheme
-
-|aws_region
-|us-gov-west-1
-|Aws region
-
-|default_tag
-|
-|Leave blank it will us the cluster_name to set tags
-
-|aws_azs
-|"a", "b", "c"
-|This will align with the aws availability zones
-
-|aws_availability_zones
-|us-gov-west-1a
-|This is the AZ for the public subnet
-
-|vpc_private_subnet_cidrs
-|"10.0.1.0/24","10.0.2.0/24","10.0.3.0/24
-|Private CIDR block
-
-|vpc_public_subnet_cidr
-|10.0.7.0/26", "10.0.8.0/26", "10.0.9.0/26"
-|Public CIDR block
-
-|===
-
-== Prereqs
-
-The user will need to provide the following:
-
+## Requirement
 - Aws ssh key for the bastion
 - AMI Ids for Rhel 8 and Rhcos images
 
-== Step 1
-Download the git to your local machine:
+## Usage:
+#### Step 01 - Download the git to your local machine:
 ```
-git clone https://github.com/CodeSparta/devkit-vpc.git
-cd devkit-vpc
-- Setup your variables.tf
+ git clone --branch 4.5.6 https://github.com/CodeSparta/devkit-vpc.git && cd devkit-vpc
+```
+#### Step 02 - Setup your variables.tf
+```
 vi variables.tf
-
-- exec into the container and deploy
+```
+#### Step 03 - Exec into the container and deploy
+```
 bash tools/dev.sh
 ./devkit-build-vpc.sh -vv -e aws_access_key=xxxxxxxxxxxxx -e aws_secret_key=XXXXXXXXXXXXXXXXX -e aws_cloud_region=us-gov-west-1
-    
-
 ```
-
-== Step 2
+-------------------------------------------------------------------
+## Teardown:
+#### Step 03 - Exec into the container and deploy
 To destroy the IaC run:
 ```
 cd into git repo
-bash tools/dev.sh
+source tools/dev.sh
 ./breakdown.yml -vv
 ```
 All resources not created from the IaC must be deleted prior to destroying the vpc.
