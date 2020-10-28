@@ -157,26 +157,3 @@ resource "aws_vpc_endpoint" "elasticloadbalancing" {
     )
   )
 }
-
-data "aws_vpc_endpoint_service" "sts" {
-  service = "sts"
-}
-
-resource "aws_vpc_endpoint" "sts" {
-  vpc_id            = aws_vpc.cluster_vpc.id
-  service_name      = data.aws_vpc_endpoint_service.sts.service_name
-  vpc_endpoint_type = "Interface"
-  private_dns_enabled = true
-
-  security_group_ids = [
-  aws_security_group.private_ec2_api.id
-]
-
-  subnet_ids =  aws_subnet.pri_subnet.*.id
-  tags =  merge(
-  var.default_tags,
-  map(
-    "Name",  "${var.cluster_name}-sts-vpce"
-    )
-  )
-}
