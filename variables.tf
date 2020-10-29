@@ -14,6 +14,7 @@ variable "ssh_public_key" {
 variable "rhcos_ami" {default = ""}
 
 // VPC & Domain Naming
+// Ensure vpc_id and cluster_name are the same
 variable "vpc_id" { default = "sparta" }
 variable "cluster_name" { default = "sparta" }
 variable "cluster_domain" { default = "redhat.io" }
