@@ -2,7 +2,7 @@
 clear
 mkdir aws 2>/dev/null
 #sudo rm -rf terraform.tfstate* .terraform
-podman run -it --rm \
+sudo podman run -it --rm \
     --name devkit-vpc \
     --entrypoint ./site.yml \
     --workdir /root/deploy/terraform/devkit-vpc \
