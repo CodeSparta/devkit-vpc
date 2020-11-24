@@ -21,11 +21,6 @@ locals {
   instance_subnet_id		= local.subnet_ids_list[local.subnet_ids_random_index]
 }
 
-data "aws_route53_zone" "private_zone" {
-  name = "${var.cluster_name}.${var.cluster_domain}."
-  private_zone = true
-}
-
 resource "aws_instance" "registry-node" {
   ami = var.rhcos_ami
   instance_type = var.registry_type
@@ -46,11 +41,3 @@ resource "aws_instance" "registry-node" {
   )
 }
 
-resource "aws_route53_record" "registry-entry" {
-  zone_id = data.aws_route53_zone.private_zone.id
-  name    = "registry.${data.aws_route53_zone.private_zone.name}"
-  type    = "A"
-  ttl     = "300"
-  records = ["${aws_instance.registry-node.private_ip}"]
-  allow_overwrite = true
-}

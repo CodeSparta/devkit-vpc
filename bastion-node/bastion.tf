@@ -30,6 +30,7 @@ resource "aws_instance" "bastion-node" {
   root_block_device { volume_size = var.bastion_disk }
 
   security_groups = var.master_sg_ids
+  associate_public_ip_address = true
 
   tags = merge(
   var.default_tags,
