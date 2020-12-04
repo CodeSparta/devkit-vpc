@@ -83,7 +83,7 @@ The user will need to provide the following:
 - AMI Ids for Rhel 8 and Rhcos images
 
 == Build
-Download git repo:
+- download git repo:
 ```
 mkdir devkit-vpc
 
@@ -93,7 +93,7 @@ podman run -it --rm -v $(pwd)/devkit-vpc:/clone:z \
 cd devkit-vpc
 ```
 
-- Setup your variables.tf
+- setup your variables.tf
 ```
 vi variables.tf
 ```
@@ -105,7 +105,7 @@ vi variables.tf
     
 
 == Destroy
-All resources not created from the IaC must be deleted prior to destroying the vpc.
+- all resources not created from the IaC must be deleted prior to destroying the vpc.
 ```
 ./devkit-destroy-vpc.sh
 ```
