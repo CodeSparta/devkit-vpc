@@ -90,8 +90,7 @@ cd devkit-vpc
 - Setup your variables.tf
 vi variables.tf
 
-- exec into the container and deploy
-bash tools/dev.sh
+- deploy
 ./devkit-build-vpc.sh -vv -e aws_cloud_region=us-gov-west-1 -e aws_access_key=xxxxxxxxxxxxx -e aws_secret_key=XXXXXXXXXXXXXXXXX
     
 
