@@ -82,25 +82,30 @@ The user will need to provide the following:
 - Aws ssh key for the bastion
 - AMI Ids for Rhel 8 and Rhcos images
 
-== Step 1
-Download the git to your local machine:
+== Build
+Download git repo:
 ```
-git clone https://github.com/CodeSparta/devkit-vpc.git
+mkdir devkit-vpc
+
+podman run -it --rm -v $(pwd)/devkit-vpc:/clone:z \
+  quay.io/cloudctl/git --branch 4.6.4 https://github.com/CodeSparta/devkit-vpc.git
+
 cd devkit-vpc
+```
+
 - Setup your variables.tf
+```
 vi variables.tf
+```
 
 - deploy
+```
 ./devkit-build-vpc.sh -vv -e aws_cloud_region=us-gov-west-1 -e aws_access_key=xxxxxxxxxxxxx -e aws_secret_key=XXXXXXXXXXXXXXXXX
+```
     
 
-```
-
-== Step 2
-To destroy the IaC run:
-```
-cd into git repo
-bash tools/dev.sh
-./breakdown.yml -vv
-```
+== Destroy
 All resources not created from the IaC must be deleted prior to destroying the vpc.
+```
+./devkit-destroy-vpc.sh
+```
