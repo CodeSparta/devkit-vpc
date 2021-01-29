@@ -88,7 +88,7 @@ The user will need to provide the following:
 mkdir devkit-vpc
 
 podman run -it --rm -v $(pwd)/devkit-vpc:/clone:z \
-  quay.io/cloudctl/git --branch master https://github.com/CodeSparta/devkit-vpc.git
+  quay.io/cloudctl/git --branch v00.21.0128 https://github.com/CodeSparta/devkit-vpc.git
 
 cd devkit-vpc
 ```
