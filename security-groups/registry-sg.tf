@@ -38,6 +38,15 @@ resource "aws_security_group_rule" "registry_ingress_22" {
   to_port	= 22
 }
 
+resource "aws_security_group_rule" "coredns_ingress_53" {
+  security_group_id = aws_security_group.registry-sg.id
+  type  	= "ingress"
+  cidr_blocks 	= [var.cidr_blocks]
+  protocol	= "udp"
+  from_port	= 53
+  to_port	= 53
+}
+
 resource "aws_security_group_rule" "registry_egress_all" {
   type              = "egress"
   security_group_id = aws_security_group.registry-sg.id
