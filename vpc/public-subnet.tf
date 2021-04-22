@@ -13,7 +13,7 @@ resource "aws_subnet" "public-subnet" {
   tags = merge(
     var.default_tags,
     map(
-      "Name", format("${var.cluster_name}-public-%s", format("%s%s", element(list(var.aws_region), 0), element(var.aws_azs, 0))),
+      "Name", format("${var.cluster_name}-public-%s", format("%s%s", element(list(var.aws_region), count.index), element(var.aws_azs, count.index))),
       "kubernetes.io/cluster/${var.cluster_name}", "owned"
     )
   )
