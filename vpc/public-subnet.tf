@@ -27,7 +27,6 @@ resource "aws_route_table_association" "route_net" {
 }
 
 resource "aws_route_table" "public-route-table" {
-  count          =  length(var.aws_azs)
   vpc_id = aws_vpc.cluster_vpc.id
   tags = merge(
     var.default_tags,
