@@ -2,6 +2,20 @@ provider "aws" {
   region = var.aws_region
 }
 
+/**
+module "aws_vpc" {
+  source = "./modules/aws_vpc"
+  vpc_name               = var.vpc_name
+  cluster_name               = var.cluster_name
+  private_subnets        = local.private_subnets
+  public_subnets         = local.public_subnets
+  azs                    = local.azs
+  dns_support_enabled    = true
+  enable_dns_hostnames   = true
+  create_public_subnets  = true
+  create_private_subnets = true
+**/
+
 module "vpc" {
   source = "./vpc"
 
