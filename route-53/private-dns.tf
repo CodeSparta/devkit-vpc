@@ -7,9 +7,9 @@ resource "aws_route53_zone" "private_zone" {
 
   tags =  merge(
   var.default_tags,
-  map(
-    "Name",  "${var.cluster_name}.${var.cluster_domain}",
-    "kubernetes.io/cluster/${var.cluster_name}", "owned"
-    )
+    { 
+    "Name" =  "${var.cluster_name}.${var.cluster_domain}",
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    }
   )
 }
