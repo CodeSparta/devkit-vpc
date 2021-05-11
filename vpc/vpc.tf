@@ -6,9 +6,9 @@ resource "aws_vpc" "cluster_vpc" {
 
   tags = merge(
   var.default_tags,
-    map(
-    "Name", var.cluster_name,
-    "kubernetes.io/cluster/${var.cluster_name}", "owned"
-    )
+    { 
+    "Name" = var.cluster_name,
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    }
   )
 }

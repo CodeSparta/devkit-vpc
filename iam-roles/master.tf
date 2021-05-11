@@ -26,9 +26,9 @@ EOF
 
   tags =  merge(
   var.default_tags,
-  map(
-    "Name",  "${var.cluster_name}-master-role"
-    )
+    { 
+    "Name" =  "${var.cluster_name}-master-role"
+    }
   )
 }
 

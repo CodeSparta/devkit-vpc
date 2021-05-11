@@ -33,9 +33,9 @@ resource "aws_instance" "bastion-node" {
 
   tags = merge(
   var.default_tags,
-  map(
-  "Name", "${var.cluster_name}-bastion-node"
-    )
+    { 
+  "Name" = "${var.cluster_name}-bastion-node"
+    }
   )
   lifecycle {
     ignore_changes = [subnet_id]

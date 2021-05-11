@@ -24,9 +24,10 @@ EOF
 
   tags =  merge(
   var.default_tags,
-  map(
-    "Name", format("${var.cluster_name}-pri-s3-vpce"),
-    "kubernetes.io/cluster/${var.cluster_name}", "owned")
+  { 
+    "Name" = format("${var.cluster_name}-pri-s3-vpce"),
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+  }
   )
 }
 
@@ -48,9 +49,9 @@ resource "aws_security_group" "private_ec2_api" {
 
   tags =  merge(
   var.default_tags,
-    map(
-      "Name",  "${var.cluster_name}-private-ec2-api",
-    )
+    { 
+      "Name" =  "${var.cluster_name}-private-ec2-api"
+    }
   )
 }
 
@@ -94,9 +95,9 @@ resource "aws_vpc_endpoint" "private_ec2" {
   subnet_ids =  aws_subnet.pri_subnet.*.id
   tags =  merge(
   var.default_tags,
-  map(
-    "Name",  "${var.cluster_name}-ec2-vpce"
-    )
+    { 
+    "Name" =  "${var.cluster_name}-ec2-vpce"
+    }
   )
 }
 
@@ -110,9 +111,9 @@ resource "aws_security_group" "private_elb_api" {
 
   tags =  merge(
   var.default_tags,
-  map(
-    "Name",  "${var.cluster_name}-private-elb-api",
-    )
+    {
+    "Name" =  "${var.cluster_name}-private-elb-api"
+    }
   )
 }
 
@@ -153,8 +154,8 @@ resource "aws_vpc_endpoint" "elasticloadbalancing" {
   subnet_ids =  aws_subnet.pri_subnet.*.id
   tags =  merge(
   var.default_tags,
-  map(
-    "Name",  "${var.cluster_name}-elb-vpce"
-    )
+    { 
+    "Name" =  "${var.cluster_name}-elb-vpce"
+    }
   )
 }

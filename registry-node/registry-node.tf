@@ -39,10 +39,10 @@ resource "aws_instance" "registry-node" {
 
   tags = merge(
   var.default_tags,
-  map(
-    "Name", "${var.cluster_name}-registry-node",
-    "kubernetes.io/cluster/${var.cluster_name}", "owned"
-    )
+    {
+    "Name" = "${var.cluster_name}-registry-node",
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    } 
   )
 }
 
@@ -51,6 +51,6 @@ resource "aws_route53_record" "registry-entry" {
   name    = "registry.${data.aws_route53_zone.private_zone.name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.registry-node.private_ip}"]
+  records = [aws_instance.registry-node.private_ip]
   allow_overwrite = true
 }

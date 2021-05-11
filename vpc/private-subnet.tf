@@ -8,14 +8,14 @@ resource "aws_subnet" "pri_subnet" {
   count                   =  length(var.aws_azs)
   vpc_id                  =  aws_vpc.cluster_vpc.id
   cidr_block              =  element(var.vpc_private_subnet_cidrs, count.index)
-  availability_zone       =  format("%s%s", element(list(var.aws_region), count.index), element(var.aws_azs, count.index))
+  availability_zone       =  format("%s%s", element(tolist([var.aws_region]), count.index), element(var.aws_azs, count.index))
 
   tags =  merge(
     var.default_tags,
-    map(
-      "Name", format("${var.cluster_name}-private-%s", format("%s%s", element(list(var.aws_region), count.index), element(var.aws_azs, count.index))),
-      "kubernetes.io/cluster/${var.cluster_name}", "owned"
-    )
+    { 
+      "Name" = format("${var.cluster_name}-private-%s", format("%s%s", element(tolist([var.aws_region]), count.index), element(var.aws_azs, count.index))),
+      "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    }
   )
 }
 
@@ -23,9 +23,10 @@ resource "aws_route_table" "pri_route_table" {
   vpc_id =  aws_vpc.cluster_vpc.id
   tags =  merge(
   var.default_tags,
-  map(
-    "Name", "${var.cluster_name}-pri_net_rtbl",
-    "kubernetes.io/cluster/${var.cluster_name}", "owned")
+  {
+    "Name" = "${var.cluster_name}-pri_net_rtbl",
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+  }
   )
 }
 
