@@ -16,7 +16,7 @@ resource "random_id" "index" {
 }
 
 locals {
-  subnet_ids_list	= tolist(data.aws_subnet_ids.public.ids)
+  subnet_ids_list	= tolist([data.aws_subnet_ids.public.ids])
   subnet_ids_random_index	= random_id.index.dec % length(data.aws_subnet_ids.public.ids)
   instance_subnet_id		= local.subnet_ids_list[local.subnet_ids_random_index]
 }

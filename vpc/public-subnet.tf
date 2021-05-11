@@ -7,13 +7,13 @@ resource "aws_subnet" "public-subnet" {
   count                   =  length(var.aws_azs)
   vpc_id                  =  aws_vpc.cluster_vpc.id
   cidr_block              =  element(var.vpc_public_subnet_cidrs, count.index)
-  availability_zone       =  format("%s%s", element(list(var.aws_region), count.index), element(var.aws_azs, count.index))
+  availability_zone       =  format("%s%s", element(tolist([var.aws_region]), count.index), element(var.aws_azs, count.index))
   map_public_ip_on_launch = true
 
   tags = merge(
     var.default_tags,
     { 
-      "Name" = format("${var.cluster_name}-public-%s", format("%s%s", element(list(var.aws_region), 0), element(var.aws_azs, 0))),
+      "Name" = format("${var.cluster_name}-public-%s", format("%s%s", element(tolist([var.aws_region]), 0), element(var.aws_azs, 0))),
       "kubernetes.io/cluster/${var.cluster_name}" = "owned"
     }
   )
