@@ -8,4 +8,4 @@ sudo podman run -it --rm \
     --workdir /root/deploy/terraform/devkit-vpc \
     --volume $(pwd)/aws:/root/.aws:z \
     --volume $(pwd):/root/deploy/terraform/devkit-vpc:z \
-  docker.io/cloudctl/konductor $@
+  quay.io/cloudctl/konductor:4.7.9 $@
