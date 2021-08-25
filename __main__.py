@@ -2,6 +2,7 @@ import pulumi
 import pulumi_aws as aws
 
 config = pulumi.Config()
+cluster_region = aws.get_region()
 
 shared_vpc = aws.ec2.Vpc(
     resource_name=config.require("vpc_id"),
@@ -16,13 +17,14 @@ shared_vpc = aws.ec2.Vpc(
 
 available = aws.get_availability_zones(state="available")
 
-subnet_gateway = aws.ec2.Subnet(
-  resource_name='pulumi-aws-example_gateway',
+pulumi_public_subnet = aws.ec2.Subnet(
+  resource_name='pulumi-public_subnet',
   availability_zone=available.names[0],
   cidr_block="10.0.4.0/24",
   vpc_id=shared_vpc.id,
   tags={
-  "Name": "pulumi-aws-public"
+  "Name": config.require('cluster_name') + "-public-" + available.names[0]
+  "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
     }
 )
 
@@ -36,8 +38,8 @@ gateway_eip = aws.ec2.Eip(
   vpc=True
 )
 
-routetable_application = aws.ec2.RouteTable(
-  resource_name='pulumi-aws-example_table',
+public_routetable = aws.ec2.RouteTable(
+  resource_name='pulumi-public_table',
   vpc_id=shared_vpc.id,
   routes=[{
     "cidrBlock": "0.0.0.0/16",
@@ -46,7 +48,7 @@ routetable_application = aws.ec2.RouteTable(
 )
 
 route_table_association = aws.ec2.RouteTableAssociation(
-  resource_name='pulumi-aws-example_association',
+  resource_name='pulumi-routetable_association',
   subnet_id=subnet_gateway.id,
-  route_table_id=routetable_application
+  route_table_id=public_routetable
 )
