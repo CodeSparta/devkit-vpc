@@ -1,0 +1,6 @@
+name: vpc
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: example vpc creation

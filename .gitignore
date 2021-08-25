@@ -1,5 +1,2 @@
-.terraform
-global.tfvars
-terraform.tfstate
-terraform.tfstate.backup
-aws
+*.pyc
+venv/
