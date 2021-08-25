@@ -9,7 +9,7 @@ shared_vpc = aws.ec2.Vpc(
     cidr_block="10.0.0.0/16",
     enable_dns_hostnames=True,enable_dns_support=True,
     tags={
-    "Name": "config.require("cluster_name")",
+    "Name": config.require("cluster_name"),
     "kubernetes.io/cluster/config.require("cluster_name")": "owned"
       }
     )
