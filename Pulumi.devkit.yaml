@@ -1,3 +1,9 @@
 config:
   aws:region: us-gov-west-1
-  vpc:name: pulumi-pasta-example
+  vpc:vpc_id: pulumi-sparta
+  vpc:cluster_name: pulumi-sparta
+  vpc:cluster_domain: redhat.io
+  vpc:rhel8_ami: ami-d281d2b3
+  vpc:rhcos_ami:
+  vpc:aws_ssh_key:
+  vpc:aws_public_key: 

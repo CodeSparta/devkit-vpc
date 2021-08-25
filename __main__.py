@@ -4,12 +4,13 @@ import pulumi_aws as aws
 config = pulumi.Config()
 
 shared_vpc = aws.ec2.Vpc(
-    resource_name=config.require("name"),
+    resource_name=config.require("vpc_id"),
     assign_generated_ipv6_cidr_block=True,
     cidr_block="10.0.0.0/16",
     enable_dns_hostnames=True,enable_dns_support=True,
     tags={
-    "Name": "pulumi-aws-example"
+    "Name": "config.require("cluster_name")",
+    "kubernetes.io/cluster/config.require("cluster_name")": "owned"
       }
     )
 
@@ -49,5 +50,3 @@ route_table_association = aws.ec2.RouteTableAssociation(
   subnet_id=subnet_gateway.id,
   route_table_id=routetable_application
 )
-
-
