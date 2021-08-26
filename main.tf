@@ -32,17 +32,6 @@ module "iam-roles" {
   default_tags = var.default_tags
 }
 
-module "route-53" {
-  source = "./route-53"
-
-  vpc_id = module.vpc.vpc_id
-  cluster_name = var.cluster_name
-  cluster_domain = var.cluster_domain
-  aws_region = var.aws_region
-  default_tags = var.default_tags
-}
-
-
 module "bastion-node" {
   source = "./bastion-node"
 
@@ -60,12 +49,10 @@ module "bastion-node" {
 
 module "registry-node" {
   source = "./registry-node"
-  depends_on = [module.route-53]
 
   vpc_id = module.vpc.vpc_id
   registry_sg_ids = [module.security-groups.registry_sg_id]
   cluster_name = var.cluster_name
-  cluster_domain = var.cluster_domain
   aws_region = var.aws_region
   default_tags = var.default_tags
   registry_type = var.registry_type
