@@ -30,12 +30,20 @@ pulumi_public_subnet = aws.ec2.Subnet(
 
 internet_gateway = aws.ec2.InternetGateway(
   resource_name='pulumi-aws-example',
-  vpc_id=shared_vpc.id
+  vpc_id=shared_vpc.id,
+    tags={
+    "Name": config.require('cluster_name'),
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
 )
 
 gateway_eip = aws.ec2.Eip(
   resource_name='pulumi-aws-example',
-  vpc=True
+  vpc=True,
+      tags={
+      "Name": config.require('cluster_name'),
+      "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+        }
 )
 
 public_routetable = aws.ec2.RouteTable(
@@ -44,11 +52,19 @@ public_routetable = aws.ec2.RouteTable(
   routes=[{
     "cidrBlock": "0.0.0.0/16",
     "gatewayId": internet_gateway.id
-    }]
+    }],
+  tags={
+    "Name": config.require('cluster_name'),
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+    }
 )
 
 route_table_association = aws.ec2.RouteTableAssociation(
   resource_name='pulumi-routetable_association',
   subnet_id=subnet_gateway.id,
-  route_table_id=public_routetable
+  route_table_id=public_routetable,
+     tags={
+      "Name": config.require('cluster_name'),
+      "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+        }
 )
