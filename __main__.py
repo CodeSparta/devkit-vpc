@@ -19,8 +19,8 @@ available = aws.get_availability_zones(state="available")
 
 pulumi_public_subnet = aws.ec2.Subnet(
   resource_name='pulumi-public_subnet',
-  availability_zone=available.names[0],
-  cidr_block="10.0.4.0/24",
+  availability_zone=available.names[0-2],
+  cidr_block=config.require('public_subnets[0]'),
   vpc_id=shared_vpc.id,
   tags={
   "Name": config.require('cluster_name') + "-public-" + available.names[0],
