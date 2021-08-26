@@ -23,7 +23,7 @@ pulumi_public_subnet = aws.ec2.Subnet(
   cidr_block="10.0.4.0/24",
   vpc_id=shared_vpc.id,
   tags={
-  "Name": config.require('cluster_name') + "-public-" + available.names[0]
+  "Name": config.require('cluster_name') + "-public-" + available.names[0],
   "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
     }
 )
