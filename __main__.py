@@ -61,7 +61,7 @@ public_routetable = aws.ec2.RouteTable(
 
 route_table_association = aws.ec2.RouteTableAssociation(
   resource_name='pulumi-routetable_association',
-  subnet_id=subnet_gateway.id,
+  subnet_id=pulumi_public_subnet.id,
   route_table_id=public_routetable,
      tags={
       "Name": config.require('cluster_name'),
