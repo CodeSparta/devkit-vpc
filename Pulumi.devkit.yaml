@@ -7,9 +7,8 @@ config:
   vpc:rhcos_ami:
   vpc:aws_ssh_key:
   vpc:aws_public_key:
-  vpc:public_subnets:
-    - 10.0.4.0/24
-  vpc:private_subnets:
-    - 10.0.1.0/24
-    - 10.0.2.0/24
-    - 10.0.3.0/24
+  vpc:public_subnet: 10.0.4.0/24
+  vpc:private_subnet_0: 10.0.1.0/24
+  vpc:private_subnet_1: 10.0.2.0/24
+  vpc:private_subnet_2: 10.0.3.0/24
+  vpc:vpc_cidr_block: 10.0.0.0/16
