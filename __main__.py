@@ -63,6 +63,7 @@ public_routetable = aws.ec2.RouteTable(
 
 public_subnet_ids = []
 private_subnet_ids = []
+private_route_ids = []
 
 # Create Public subnets and routes
 for zone, public_subnet_cidr, private_subnet_cidr in zip(
@@ -122,7 +123,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         subnet_id=private_subnet.id,
     )
     private_subnet_ids.append(private_subnet.id)
-
+    private_route_ids.append(private_routetable.id)
 # Create security groups
 
 # VPC endpoint security group
@@ -230,7 +231,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
 #    subnet_ids=private_subnet_ids.id,
-    security_group_ids=endpoint_sg.id,
+    security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
@@ -242,7 +243,7 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
 #    subnet_ids=private_subnet_ids.id,
-    security_group_ids=endpoint_sg.id,
+    security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
@@ -256,3 +257,4 @@ pulumi.export("pulumi-vpc-id", shared_vpc.id)
 pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
+pulumi.export("pulumi-private-route-ids", private_route_ids)
