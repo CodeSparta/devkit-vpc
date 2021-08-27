@@ -225,6 +225,8 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
+"""
+# Need to gather more information, currently cannot get more than 1 subnet per interface assigned...    
 # EC2 endpoint
 ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
@@ -248,7 +250,7 @@ sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
     subnet_id=private_subnet.id
     )
 
-"""
+
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
