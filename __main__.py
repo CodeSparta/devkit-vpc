@@ -230,13 +230,15 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
     vpc_endpoint_type="Interface",
-    subnet_ids=[private_subnet.id],
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
+sn_ec2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2",
+    vpc_endpoint_id=ec2_vpc_endpoint.id,
+    subnet_id=aws_subnet["private_subnet.ids"])
 
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint(
@@ -244,14 +246,12 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint(
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
     vpc_endpoint_type="Interface",
-    subnet_ids=[private_subnet.id],
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
-
 
 
 pulumi.export("pulumi-az-amount", zones_amount)
