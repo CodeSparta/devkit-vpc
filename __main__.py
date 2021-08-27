@@ -63,7 +63,7 @@ public_routetable = aws.ec2.RouteTable(
 
 public_subnet_ids = []
 private_subnet_ids = []
-
+private_routetable_ids = []
 # Create Public subnets and routes
 for zone, public_subnet_cidr, private_subnet_cidr in zip(
     zones, private_subnet_cidrs, public_subnet_cidrs
@@ -121,7 +121,8 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         route_table_id=private_routetable.id,
         subnet_id=private_subnet.id,
     )
-    private_subnet_ids.append(private_subnet.id),
+    private_subnet_ids.append(private_subnet.id)
+    
     private_routetable_ids.append(private_routetable.id)
 # Create security groups
 
