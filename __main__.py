@@ -216,7 +216,7 @@ worker_sg = aws.ec2.SecurityGroup(
 # Create VPC endpoints
 
 # S3 endpoint
-s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
+s3_vpc_endpoint = aws.s3.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
 #    route_table_ids =
@@ -239,7 +239,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     )
 
 # ELB endpoint
-elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
+elb_vpc_endpoint = aws.lb.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
 #    subnet_ids=private_subnet_ids.id,
