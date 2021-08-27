@@ -61,6 +61,19 @@ public_routetable = aws.ec2.RouteTable(
     }
 )
 
+private_routetable = aws.ec2.RouteTable(
+    resource_name=config.require('cluster_name') + "-private-{zone}",
+    vpc_id=shared_vpc.id,
+    routes=[{
+      "cidr_block": "0.0.0.0/16",
+      "gatewayId": internet_gateway.id
+         }],
+    tags={
+      "Name": config.require('cluster_name') + "-private",
+      "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
 public_subnet_ids = []
 private_subnet_ids = []
 private_route_ids = []
@@ -104,26 +117,13 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         },
     )
 
-    private_routetable = aws.ec2.RouteTable(
-        f"{cluster_name}-private-{zone}",
-        vpc_id=shared_vpc.id,
-        routes=[{
-          "cidr_block": "0.0.0.0/16",
-          "gatewayId": internet_gateway.id
-          }],
-        tags={
-            "Name": config.require('cluster_name') + "-private",
-            "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
-      }
-    )
-
     aws.ec2.RouteTableAssociation(
         f"{cluster_name}-private-rta-{zone}",
         route_table_id=private_routetable.id,
         subnet_id=private_subnet.id,
     )
     private_subnet_ids.append(private_subnet.id)
-    private_route_ids.append(private_routetable.id)
+
 # Create security groups
 
 # VPC endpoint security group
@@ -237,15 +237,6 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
       }
     )
 
-for private_subnet in zip(
-    private_subnet, 
-):
-    sn_ec2 = aws.ec2.VpcEndpointSubnetAssociation(
-      f"snEc2",
-      vpc_endpoint_id=ec2_vpc_endpoint.id,
-      subnet_id=private_subnet.id
-    )
-
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
@@ -264,4 +255,3 @@ pulumi.export("pulumi-vpc-id", shared_vpc.id)
 pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
-pulumi.export("pulumi-private-route-ids", private_route_ids)
