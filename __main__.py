@@ -1,73 +1,35 @@
 import pulumi
 import pulumi_aws as aws
+import utils
 
 # Global variable API calls
 config = pulumi.Config()
+
 cluster_region = aws.get_region()
 available = aws.get_availability_zones(state="available")
+public_subnet_cidrs = config.require_object("public_subnet_cidrs")
+private_subnet_cidrs = config.require_object("private_subnet_cidrs")
+cluster_name = config.require('cluster_name')
+zones_amount = config.require_int("zones_amount")
+zones = utils.get_aws_az(zones_amount)
+vpc_cidr_block = config.require('vpc_cidr_block')
 
 # Create the base VPC
 shared_vpc = aws.ec2.Vpc(
     resource_name=config.require("vpc_id"),
     assign_generated_ipv6_cidr_block=True,
     cidr_block=config.require('vpc_cidr_block'),
-    enable_dns_hostnames=True,enable_dns_support=True,
+    enable_dns_hostnames=True,
+    enable_dns_support=True,
     tags={
     "Name": config.require('cluster_name'),
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
 
-
-# Create the public subnet
-pulumi_public_subnet = aws.ec2.Subnet(
-  resource_name='pulumi-public_subnet',
-  availability_zone=available.names[0],
-  cidr_block=config.require('public_subnet'),
-  vpc_id=shared_vpc.id,
-  tags={
-  "Name": config.require('cluster_name') + "-public-" + available.names[0],
-  "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
-    }
-)
-
-# Create the 3 private subnets. Thi should be ablle to be a loop in the future instead of 3 blocks
-pulumi_private_subnet_a = aws.ec2.Subnet(
-  resource_name='pulumi-private_subnet_a',
-  availability_zone=available.names[0],
-  cidr_block=config.require('private_subnet_0'),
-  vpc_id=shared_vpc.id,
-  tags={
-  "Name": config.require('cluster_name') + "-public-" + available.names[0],
-  "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
-    }
-)
-
-pulumi_private_subnet_b = aws.ec2.Subnet(
-  resource_name='pulumi-private_subnet_b',
-  availability_zone=available.names[1],
-  cidr_block=config.require('private_subnet_1'),
-  vpc_id=shared_vpc.id,
-  tags={
-  "Name": config.require('cluster_name') + "-public-" + available.names[1],
-  "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
-    }
-)
-
-pulumi_private_subnet_c = aws.ec2.Subnet(
-  resource_name='pulumi-private_subnet_c',
-  availability_zone=available.names[2],
-  cidr_block=config.require('private_subnet_2'),
-  vpc_id=shared_vpc.id,
-  tags={
-  "Name": config.require('cluster_name') + "-public-" + available.names[2],
-  "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
-    }
-)
-
 # Only needed when a public subnet and access is required
 internet_gateway = aws.ec2.InternetGateway(
-  resource_name='pulumi-aws-example',
+  resource_name=config.require('cluster_name') + "-igw",
   vpc_id=shared_vpc.id,
     tags={
     "Name": config.require('cluster_name'),
@@ -75,6 +37,7 @@ internet_gateway = aws.ec2.InternetGateway(
       }
 )
 
+# Public gateway EIP
 gateway_eip = aws.ec2.Eip(
   resource_name=config.require('cluster_name') + "-gateway",
   vpc=True,
@@ -83,13 +46,12 @@ gateway_eip = aws.ec2.Eip(
       "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
         }
 )
-
 # Public route table
 public_routetable = aws.ec2.RouteTable(
   resource_name=config.require('cluster_name')+ "_public_table",
   vpc_id=shared_vpc.id,
   routes=[{
-    "cidrBlock": "0.0.0.0/16",
+    "cidrBlock":  "{vpc_cidr_block}",
     "gatewayId": internet_gateway.id
     }],
   tags={
@@ -98,29 +60,69 @@ public_routetable = aws.ec2.RouteTable(
     }
 )
 
-# Private route table
-private_routetable = aws.ec2.RouteTable(
-  resource_name=config.require('cluster_name') + "_private_table",
-  vpc_id=shared_vpc.id,
-  routes=[{
-    "cidrBlock": "0.0.0.0/16",
-    }],
-  tags={
-    "Name": config.require('cluster_name'),
-    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
-    }
-)
+public_subnet_ids = []
+private_subnet_ids = []
 
-# Public routetable_association
-public_route_table_association = aws.ec2.RouteTableAssociation(
-  resource_name=config.require('cluster_name') + "-public-routetable_association",
-  subnet_id=pulumi_public_subnet.id,
-  route_table_id=public_routetable
-)
+# Create Public subnets and routes
+for zone, public_subnet_cidr, private_subnet_cidr in zip(
+    zones, private_subnet_cidrs, public_subnet_cidrs
+):
+    public_subnet = aws.ec2.Subnet(
+        f"{cluster_name}-public-subnet-{zone}",
+        assign_ipv6_address_on_creation=False,
+        vpc_id=shared_vpc.id,
+        map_public_ip_on_launch=True,
+        cidr_block=public_subnet_cidr,
+        availability_zone=zone,
+        tags={
+        "Name": f"{cluster_name}-public-subnet-{zone}",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+        },
+
+    )
+    aws.ec2.RouteTableAssociation(
+        f"{cluster_name}-public-rta-{zone}",
+        route_table_id=public_routetable.id,
+        subnet_id=public_subnet.id,
+    )
+
+    public_subnet_ids.append(public_subnet.id)
+
+    private_subnet = aws.ec2.Subnet(
+        f"{cluster_name}-private-subnet-{zone}",
+        assign_ipv6_address_on_creation=False,
+        vpc_id=shared_vpc.id,
+        map_public_ip_on_launch=False,
+        cidr_block=private_subnet_cidr,
+        availability_zone=zone,
+        tags={
+        "Name": f"{cluster_name}-private-subnet-{zone}",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+        },
+    )
+
+    private_routetable = aws.ec2.RouteTable(
+        f"{cluster_name}-private-{zone}",
+        vpc_id=shared_vpc.id,
+        routes=[{
+          "cidr_block": "{vpc_cidr_block}"
+          }],
+        tags={
+            "Name": config.require('cluster_name'),
+            "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+    aws.ec2.RouteTableAssociation(
+        f"{cluster_name}-private-rta-{zone}",
+        route_table_id=private_routetable.id,
+        subnet_id=private_subnet.id,
+    )
+    private_subnet_ids.append(private_subnet.id)
 
 
-private_route_table_association = aws.ec2.RouteTableAssociation(
-  resource_name=config.require('cluster_name') + "-routetable_association",
-  subnet_id=pulumi_public_subnet.id,
-  route_table_id=private_routetable
-)
+pulumi.export("pulumi-az-amount", zones_amount)
+pulumi.export("pulumi-vpc-id", shared_vpc.id)
+pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
+pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
+pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
