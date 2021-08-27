@@ -218,7 +218,7 @@ worker_sg = aws.ec2.SecurityGroup(
 s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
-    route_table_ids=private_routetable.id,
+    route_table_ids=private_routetable_ids.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
@@ -258,3 +258,4 @@ pulumi.export("pulumi-vpc-id", shared_vpc.id)
 pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
+pulumi.export("pulumi-private_routetable-ids", private_routetable_ids)
