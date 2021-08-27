@@ -230,6 +230,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
     vpc_endpoint_type="Interface",
+    subnet_ids=[private_subnet.id[0-2]],
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
