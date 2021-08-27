@@ -56,7 +56,7 @@ public_routetable = aws.ec2.RouteTable(
     "gatewayId": internet_gateway.id
     }],
   tags={
-    "Name": config.require('cluster_name'),
+    "Name": config.require('cluster_name') + "-public",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
     }
 )
@@ -110,7 +110,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
           "gatewayId": internet_gateway.id
           }],
         tags={
-            "Name": config.require('cluster_name'),
+            "Name": config.require('cluster_name') + "-private",
             "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
