@@ -238,11 +238,11 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     )
 sn_ec2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=[private_subnet.id])
+    subnet_id=private_subnet.id
+    )
 
 # ELB endpoint
-elb_vpc_endpoint = aws.ec2.VpcEndpoint(
-    f"elb",
+elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
     vpc_endpoint_type="Interface",
