@@ -248,7 +248,7 @@ sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
     subnet_id=[private_subnet.id]
     )
 
-/*
+"""
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
@@ -271,7 +271,7 @@ sn_elb_2 = aws.ec2.VpcEndpointSubnetAssociation("snElb_2",
     vpc_endpoint_id=elb_vpc_endpoint.id,
     subnet_id=private_subnet.id[2]
     )
-*/
+"""
 
 pulumi.export("pulumi-az-amount", zones_amount)
 pulumi.export("pulumi-vpc-id", shared_vpc.id)
