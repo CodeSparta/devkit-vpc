@@ -241,7 +241,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
-    subnet_ids=private_subnet.id
+    subnet_ids=private_subnet.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
