@@ -37,6 +37,16 @@ internet_gateway = aws.ec2.InternetGateway(
       }
 )
 
+# Black hole gateway to statify AWS route automation
+blackhole_gateway = aws.ec2.InternetGateway(
+  resource_name=config.require('cluster_name') + "-blackhole",
+  vpc_id=shared_vpc.id,
+    tags={
+    "Name": config.require('cluster_name') + "-blackhole",
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+)
+
 # Public gateway EIP
 gateway_eip = aws.ec2.Eip(
   resource_name=config.require('cluster_name') + "-gateway",
@@ -46,12 +56,13 @@ gateway_eip = aws.ec2.Eip(
       "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
         }
 )
+
 # Public route table
 public_routetable = aws.ec2.RouteTable(
   resource_name=config.require('cluster_name')+ "_public_table",
   vpc_id=shared_vpc.id,
   routes=[{
-    "cidrBlock":  "{vpc_cidr_block}",
+    "cidrBlock":  "0.0.0.0/0",
     "gatewayId": internet_gateway.id
     }],
   tags={
@@ -105,7 +116,8 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         f"{cluster_name}-private-{zone}",
         vpc_id=shared_vpc.id,
         routes=[{
-          "cidr_block": "{vpc_cidr_block}"
+          "cidr_block": "0.0.0.0/16"
+          "gatewayId": blackhole_gateway.id
           }],
         tags={
             "Name": config.require('cluster_name'),
