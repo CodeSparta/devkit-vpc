@@ -63,7 +63,7 @@ public_routetable = aws.ec2.RouteTable(
 
 public_subnet_ids = []
 private_subnet_ids = []
-private_routetable_ids = []
+
 # Create Public subnets and routes
 for zone, public_subnet_cidr, private_subnet_cidr in zip(
     zones, private_subnet_cidrs, public_subnet_cidrs
@@ -123,7 +123,6 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
     )
     private_subnet_ids.append(private_subnet.id)
 
-    private_routetable_ids.append(private_routetable.id)
 # Create security groups
 
 # VPC endpoint security group
@@ -219,7 +218,8 @@ worker_sg = aws.ec2.SecurityGroup(
 s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
-    security_group_ids=endpoint_sg.id,
+#    route_table_ids =
+#    security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
@@ -229,7 +229,7 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
 ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
-    subnet_ids=private_subnet_ids.id,
+#    subnet_ids=private_subnet_ids.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
@@ -241,7 +241,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
-    subnet_ids=private_subnet_ids.id,
+#    subnet_ids=private_subnet_ids.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
@@ -256,4 +256,3 @@ pulumi.export("pulumi-vpc-id", shared_vpc.id)
 pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
-pulumi.export("pulumi-private-routetable-ids", private_routetable_ids)
