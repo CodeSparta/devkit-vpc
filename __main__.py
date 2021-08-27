@@ -128,7 +128,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
 # VPC endpoint security group
 endpoint_sg = aws.ec2.SecurityGroup(
     config.require('cluster_name') + "endpoint-sg",
-    vpc_id=shared _vpc,
+    vpc_id=shared_vpc.id,
     description="VPC endpoint SG",
     ingress=[
         {
@@ -150,7 +150,7 @@ endpoint_sg = aws.ec2.SecurityGroup(
 # boostrap security group
 bootstrap_sg = aws.ec2.SecurityGroup(
     config.require('cluster_name') + "bootstrap-sg",
-    vpc_id=shared _vpc,
+    vpc_id=shared_vpc.id,
     description="VPC bootstrap SG",
     ingress=[
         {
@@ -172,7 +172,7 @@ bootstrap_sg = aws.ec2.SecurityGroup(
 # master security group
 master_sg = aws.ec2.SecurityGroup(
     config.require('cluster_name') + "master-sg",
-    vpc_id=shared _vpc,
+    vpc_id=shared_vpc.id,
     description="VPC master SG",
     ingress=[
         {
@@ -193,7 +193,7 @@ master_sg = aws.ec2.SecurityGroup(
 # worker security group
 worker_sg = aws.ec2.SecurityGroup(
     config.require('cluster_name') + "worker-sg",
-    vpc_id=shared _vpc,
+    vpc_id=shared_vpc.id,
     description="VPC worker SG",
     ingress=[
         {
