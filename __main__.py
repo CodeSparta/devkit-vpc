@@ -218,7 +218,7 @@ worker_sg = aws.ec2.SecurityGroup(
 s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
-    route_table_id=private_routetable.id,
+    route_table_ids=private_routetable.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
@@ -229,7 +229,7 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
 ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
-    route_table_id=private_routetable.id,
+    subnet_ids=private_subnet.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
@@ -241,7 +241,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
-    route_table_id=private_routetable.id,
+    subnet_ids=private_subnet.id
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
