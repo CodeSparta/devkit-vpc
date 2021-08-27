@@ -116,7 +116,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         f"{cluster_name}-private-{zone}",
         vpc_id=shared_vpc.id,
         routes=[{
-          "cidr_block": "0.0.0.0/16"
+          "cidr_block": "0.0.0.0/16",
           "gatewayId": blackhole_gateway.id
           }],
         tags={
