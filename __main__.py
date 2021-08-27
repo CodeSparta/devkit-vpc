@@ -221,7 +221,7 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     service_name="com.amazonaws.us-gov-west-1.s3",
     vpc_endpoint_type="Gateway",
 #    route_table_ids =
-#    security_group_ids=endpoint_sg.id,
+    security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
@@ -232,7 +232,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
     vpc_endpoint_type="Interface",
-    subnet_ids=private_subnet_ids.id,
+    subnet_ids=private_subnet.id,
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
@@ -245,7 +245,7 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
     vpc_endpoint_type="Interface",
-    subnet_ids=private_subnet_ids.id,
+    subnet_ids=private_subnet.id,
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
