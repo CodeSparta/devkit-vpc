@@ -220,7 +220,7 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
     vpc_endpoint_type="Gateway",
-    route_table_ids=[private_routetable.id]
+    route_table_ids=[private_routetable.id],
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
