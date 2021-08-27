@@ -121,9 +121,8 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         route_table_id=private_routetable.id,
         subnet_id=private_subnet.id,
     )
-    private_subnet_ids.append(private_subnet.id)
-
-    private_route_ids.append(private_routetable.id)
+    private_subnet_ids.append(private_subnet.id),
+    private_routetable_ids.append(private_routetable.id)
 # Create security groups
 
 # VPC endpoint security group
@@ -219,7 +218,7 @@ worker_sg = aws.ec2.SecurityGroup(
 s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
-    route_table_ids=pulumi-private-route-ids.id,
+    route_table_ids=private_routetable_ids.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
@@ -259,4 +258,4 @@ pulumi.export("pulumi-vpc-id", shared_vpc.id)
 pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
-pulumi.export("pulumi-private-route-ids", private_route_ids)
+pulumi.export("pulumi-private-routetable-ids", private_routetable_ids)
