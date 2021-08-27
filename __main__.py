@@ -238,7 +238,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     )
 
 for private_subnet in zip(
-    private_subnet_cidr, 
+    private_subnet, 
 ):
     sn_ec2 = aws.ec2.VpcEndpointSubnetAssociation(
       f"snEc2",
