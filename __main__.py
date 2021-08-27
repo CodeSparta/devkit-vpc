@@ -89,6 +89,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
 
     public_subnet_ids.append(public_subnet.id)
 
+# Create Private subenet, route table and append instances
     private_subnet = aws.ec2.Subnet(
         f"{cluster_name}-private-subnet-{zone}",
         assign_ipv6_address_on_creation=False,
@@ -121,6 +122,135 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         subnet_id=private_subnet.id,
     )
     private_subnet_ids.append(private_subnet.id)
+
+# Create security groups
+
+# VPC endpoint security group
+endpoint_sg = aws.ec2.SecurityGroup(
+    config.require('cluster_name') + "endpoint-sg",
+    vpc_id=shared _vpc,
+    description="VPC endpoint SG",
+    ingress=[
+        {
+            "protocol": "all",
+            "from_port": 0,
+            "to_port": 0,
+            "cidr_blocks": ["0.0.0.0/0"],
+        }
+    ],
+    egress=[
+        {"protocol": "-1", "from_port": 0, "to_port": 0, "cidr_blocks": ["0.0.0.0/0"],}
+    ],
+    tags={
+        "Name": config.require('cluster_name') + "-endpoint-sg",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+# boostrap security group
+bootstrap_sg = aws.ec2.SecurityGroup(
+    config.require('cluster_name') + "bootstrap-sg",
+    vpc_id=shared _vpc,
+    description="VPC bootstrap SG",
+    ingress=[
+        {
+            "protocol": "all",
+            "from_port": 0,
+            "to_port": 0,
+            "cidr_blocks": ["0.0.0.0/0"],
+        }
+    ],
+    egress=[
+        {"protocol": "-1", "from_port": 0, "to_port": 0, "cidr_blocks": ["0.0.0.0/0"],}
+    ],
+    tags={
+        "Name": config.require('cluster_name') + "-bootstrap-sg",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+# master security group
+master_sg = aws.ec2.SecurityGroup(
+    config.require('cluster_name') + "master-sg",
+    vpc_id=shared _vpc,
+    description="VPC master SG",
+    ingress=[
+        {
+            "protocol": "all",
+            "from_port": 0,
+            "to_port": 0,
+            "cidr_blocks": ["0.0.0.0/0"],
+        }
+    ],
+    egress=[
+        {"protocol": "-1", "from_port": 0, "to_port": 0, "cidr_blocks": ["0.0.0.0/0"],}
+    ],
+    tags={
+        "Name": config.require('cluster_name') + "-master-sg",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+# worker security group
+worker_sg = aws.ec2.SecurityGroup(
+    config.require('cluster_name') + "worker-sg",
+    vpc_id=shared _vpc,
+    description="VPC worker SG",
+    ingress=[
+        {
+            "protocol": "all",
+            "from_port": 0,
+            "to_port": 0,
+            "cidr_blocks": ["0.0.0.0/0"],
+        }
+    ],
+    egress=[
+        {"protocol": "-1", "from_port": 0, "to_port": 0, "cidr_blocks": ["0.0.0.0/0"],}
+    ],
+    tags={
+        "Name": config.require('cluster_name') + "-worker-sg",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+# Create VPC endpoints
+
+# S3 endpoint
+s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
+    vpc_id=shared_vpc.id,
+    service_name="com.amazonaws.us-gov-west-1.s3",
+    route_table_id=private_routetable.id,
+    security_group_ids=endpoint_sg.id,
+    tags={
+        "Name": config.require('cluster_name') + "-s3-endpoint",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+# EC2 endpoint
+ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
+    vpc_id=shared_vpc.id,
+    service_name="com.amazonaws.us-gov-west-1.ec2",
+    route_table_id=private_routetable.id,
+    security_group_ids=endpoint_sg.id,
+    tags={
+        "Name": config.require('cluster_name') + "-ec2-endpoint",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+# ELB endpoint
+elb_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
+    vpc_id=shared_vpc.id,
+    service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
+    route_table_id=private_routetable.id,
+    security_group_ids=endpoint_sg.id,
+    tags={
+        "Name": config.require('cluster_name') + "-elb-endpoint",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+
+
 
 
 pulumi.export("pulumi-az-amount", zones_amount)
