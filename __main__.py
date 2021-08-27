@@ -236,9 +236,14 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
-sn_ec2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2",
-    vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=private_subnet.id
+
+for private_subnet in zip(
+    private_subnet_cidr, 
+):
+    sn_ec2 = aws.ec2.VpcEndpointSubnetAssociation(
+      f"snEc2",
+      vpc_endpoint_id=ec2_vpc_endpoint.id,
+      subnet_id=private_subnet.id
     )
 
 # ELB endpoint
