@@ -230,7 +230,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
     vpc_endpoint_type="Interface",
-    subnet_ids=[private_subnet.id[0]],
+    subnet_ids=private_subnet.id[0],
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
@@ -240,12 +240,12 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
 
 sn_ec2_1 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_1",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=[private_subnet.id[1]]
+    subnet_id=private_subnet.id[1]
     )
 
 sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=[private_subnet.id[2]]
+    subnet_id=private_subnet.id[2]
     )
 
 # ELB endpoint
@@ -253,7 +253,7 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.elasticloadbalancing",
     vpc_endpoint_type="Interface",
-    subnet_ids=[private_subnet.id[0]],
+    subnet_ids=private_subnet.id[0],
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-elb-endpoint",
@@ -263,12 +263,12 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
 
 sn_elb_1 = aws.ec2.VpcEndpointSubnetAssociation("snElb_1",
     vpc_endpoint_id=elb_vpc_endpoint.id,
-    subnet_id=[private_subnet.id[1]]
+    subnet_id=private_subnet.id[1]
     )
 
 sn_elb_2 = aws.ec2.VpcEndpointSubnetAssociation("snElb_2",
     vpc_endpoint_id=elb_vpc_endpoint.id,
-    subnet_id=[private_subnet.id[2]]
+    subnet_id=private_subnet.id[2]
     )
 
 pulumi.export("pulumi-az-amount", zones_amount)
