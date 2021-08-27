@@ -122,7 +122,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         subnet_id=private_subnet.id,
     )
     private_subnet_ids.append(private_subnet.id)
-    
+
     private_routetable_ids.append(private_routetable.id)
 # Create security groups
 
@@ -219,7 +219,6 @@ worker_sg = aws.ec2.SecurityGroup(
 s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.s3",
-    route_table_ids=private_routetable_ids.id,
     security_group_ids=endpoint_sg.id,
     tags={
         "Name": config.require('cluster_name') + "-s3-endpoint",
@@ -249,8 +248,6 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
-
-
 
 
 
