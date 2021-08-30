@@ -1,7 +1,7 @@
 import pulumi
 import pulumi_aws as aws
 import utils
-
+import json
 # Global variable API calls
 config = pulumi.Config()
 
@@ -226,7 +226,7 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
       }
     )
 """
-# Need to gather more information, currently cannot get more than 1 subnet per interface assigned...    
+# Need to gather more information, currently cannot get more than 1 subnet per interface assigned...Pulumi slack, waiting for responses
 # EC2 endpoint
 ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
@@ -274,6 +274,62 @@ sn_elb_2 = aws.ec2.VpcEndpointSubnetAssociation("snElb_2",
     subnet_id=private_subnet.id[2]
     )
 """
+
+# Create IAM Roles, Policies and attachements
+master_role = aws.iam.Role("master_role",
+  assume_role_policy=json.dumps({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+      }],
+  }),
+  tags={
+    "Name": config.require('cluster_name') + "master-role",
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+policy = aws.iam.Policy("policy",
+    path="/",
+    description=config.require('cluster_name') + "-master-policy",
+    policy=json.dumps({
+        "Version": "2012-10-17",
+        "Statement": [
+        {
+        "Action": "ec2:*",
+        "Resource": "*",
+        "Effect": "Allow"
+        },
+        {
+        "Action": "iam:PassRole",
+        "Resource": "*",
+        "Effect": "Allow"
+        },
+        {
+        "Action" : [
+        "s3:GetObject"
+        ],
+        "Resource": "*",
+        "Effect": "Allow"
+            },
+            {
+            "Action": "elasticloadbalancing:*",
+            "Resource": "*",
+            "Effect": "Allow",
+            }],
+    }))
+
+master_role_policy_attach = aws.iam.RolePolicyAttachment(master-policy-attach",
+    role=master_role.name,
+    policy_arn="arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+)
+
 
 pulumi.export("pulumi-az-amount", zones_amount)
 pulumi.export("pulumi-vpc-id", shared_vpc.id)
