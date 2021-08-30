@@ -170,6 +170,28 @@ bootstrap_sg = aws.ec2.SecurityGroup(
       }
     )
 
+#bastion security group
+bastion_sg = aws.ec2.SecurityGroup(
+    config.require('cluster_name') + "bastion-sg",
+    vpc_id=shared_vpc.id,
+    description="VPC bastion SG",
+    ingress=[
+        {
+            "protocol": "tcp",
+            "from_port": 22,
+            "to_port": 22,
+            "cidr_blocks": ["0.0.0.0/0"],
+        }
+    ],
+    egress=[
+        {"protocol": "-1", "from_port": 0, "to_port": 0, "cidr_blocks": ["0.0.0.0/0"],}
+    ],
+    tags={
+        "Name": config.require('cluster_name') + "-bastion-sg",
+        "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
 # master security group
 master_sg = aws.ec2.SecurityGroup(
     config.require('cluster_name') + "master-sg",
@@ -374,6 +396,57 @@ worker_profile = aws.iam.InstanceProfile("workerProfile",
 
 master_instance_profile.append(master_profile.id)
 worker_instance_profile.append(worker_profile.id)
+
+
+# Create bastion node
+
+bastion_host=aws.ec2.Instance("bastion",
+    ami=config.require('rhel8_ami'),
+    instance_type=config.require('bastion_type'),
+    subnet_id=public_subnet.id,
+    security_groups=bastion_sg.id,
+    key_name=config.require('aws_ssh_key'),
+    root_block_device={[
+      volume_size="120"
+    ]},
+  tags={
+    "Name": config.require('cluster_name') + "-bastion",
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 pulumi.export("pulumi-az-amount", zones_amount)

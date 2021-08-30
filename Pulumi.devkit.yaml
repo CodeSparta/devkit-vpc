@@ -4,6 +4,7 @@ config:
   vpc:cluster_name: pulumi-sparta
   vpc:cluster_domain: redhat.io
   vpc:rhel8_ami: ami-d281d2b3
+  vpc:bastion_type: t2.xlarge
   vpc:rhcos_ami:
   vpc:aws_ssh_key:
   vpc:aws_public_key:
