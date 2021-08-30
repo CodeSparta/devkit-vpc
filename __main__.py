@@ -407,7 +407,7 @@ bastion_host=aws.ec2.Instance("bastion",
     security_groups=bastion_sg.id,
     key_name=config.require('aws_ssh_key'),
     root_block_device=[
-      volume_size: 120Gi
+      volume_size: "120"
     ],
   tags={
     "Name": config.require('cluster_name') + "-bastion",
