@@ -296,7 +296,40 @@ master_role = aws.iam.Role("master_role",
       }
     )
 
-policy = aws.iam.RolePolicy("master_policy",
+worker_role = aws.iam.Role("worker_role",
+  name=config.require('cluster_name') + "-worker-role",
+  assume_role_policy=json.dumps({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+      }],
+  }),
+  tags={
+    "Name": config.require('cluster_name') + "-worker-role",
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
+
+worker_policy = aws.iam.RolePolicy("worker_policy",
+    role=worker_role.id,
+    name=config.require('cluster_name') + "-worker-policy",
+    policy=json.dumps({
+        "Version": "2012-10-17",
+        "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "ec2:Describe*",
+      "Resource": "*"
+      }],
+          }))
+
+master_policy = aws.iam.RolePolicy("master_policy",
     role=master_role.id,
     name=config.require('cluster_name') + "-master-policy",
     policy=json.dumps({
@@ -327,9 +360,17 @@ policy = aws.iam.RolePolicy("master_policy",
     }))
 
 master_profile = aws.iam.InstanceProfile("masterProfile",
-  name=config.require('cluster_name') + "-master-profile", 
+  name=config.require('cluster_name') + "-master-profile",
   role=master_role.id
   )
+
+worker_profile = aws.iam.InstanceProfile("workerProfile",
+  name=config.require('cluster_name') + "-worker-profile",
+  role=worker_role.id
+  )
+
+master_instance_profile.append(master_profile.id)
+worker_instance_profile.append(worker_profile.id)
 
 
 pulumi.export("pulumi-az-amount", zones_amount)
@@ -337,3 +378,5 @@ pulumi.export("pulumi-vpc-id", shared_vpc.id)
 pulumi.export("pulumi-public-subnet-ids", public_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
 pulumi.export("pulumi-private-subnet-ids", private_subnet_ids)
+pulumi.export("pulumi-master-instance-profile", master_instance_profile)
+pulumi.export("pulumi-worker-instance-profile", worker_instance_profile)
