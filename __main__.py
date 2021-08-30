@@ -298,7 +298,6 @@ master_role = aws.iam.Role("master_role",
 policy = aws.iam.RolePolicy("master_policy",
     role=master_role.id,
     name=config.require('cluster_name') + "-master-policy",
-    description=config.require('cluster_name') + "-master-policy",
     policy=json.dumps({
         "Version": "2012-10-17",
         "Statement": [
