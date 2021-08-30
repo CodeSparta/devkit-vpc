@@ -415,8 +415,6 @@ bastion_host=aws.ec2.Instance("bastion",
       }
     )
 
-)
-
 
 
 
