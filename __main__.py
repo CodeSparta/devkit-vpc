@@ -326,6 +326,10 @@ policy = aws.iam.RolePolicy("master_policy",
             }],
     }))
 
+master_profile = aws.iam.InstanceProfile("masterProfile",
+  name=config.require('cluster_name') + "-master-profile", 
+  role=master_role.id
+  )
 
 
 pulumi.export("pulumi-az-amount", zones_amount)
