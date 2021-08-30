@@ -295,8 +295,9 @@ master_role = aws.iam.Role("master_role",
       }
     )
 
-policy = aws.iam.Policy("policy",
-    path="/",
+policy = aws.iam.RolePolicy("master_policy",
+    role=master_role.id,
+    name=config.require('cluster_name') + "-master-policy",
     description=config.require('cluster_name') + "-master-policy",
     policy=json.dumps({
         "Version": "2012-10-17",
@@ -319,16 +320,12 @@ policy = aws.iam.Policy("policy",
         "Effect": "Allow"
             },
             {
-            "Action": "elasticloadbalancing:*",
-            "Resource": "*",
-            "Effect": "Allow",
+        "Action": "elasticloadbalancing:*",
+        "Resource": "*",
+        "Effect": "Allow",
             }],
     }))
 
-master_role_policy_attach = aws.iam.RolePolicyAttachment(master-policy-attach",
-    role=master_role.name,
-    policy_arn="arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-)
 
 
 pulumi.export("pulumi-az-amount", zones_amount)
