@@ -277,6 +277,7 @@ sn_elb_2 = aws.ec2.VpcEndpointSubnetAssociation("snElb_2",
 
 # Create IAM Roles, Policies and attachements
 master_role = aws.iam.Role("master_role",
+  name=config.require('cluster_name') + "-master-role",
   assume_role_policy=json.dumps({
     "Version": "2012-10-17",
     "Statement": [
@@ -290,7 +291,7 @@ master_role = aws.iam.Role("master_role",
       }],
   }),
   tags={
-    "Name": config.require('cluster_name') + "master-role",
+    "Name": config.require('cluster_name') + "-master-role",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
