@@ -359,6 +359,9 @@ master_policy = aws.iam.RolePolicy("master_policy",
             }],
     }))
 
+master_instance_profile = []
+worker_instance_profile = []
+
 master_profile = aws.iam.InstanceProfile("masterProfile",
   name=config.require('cluster_name') + "-master-profile",
   role=master_role.id
