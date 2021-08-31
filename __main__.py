@@ -444,13 +444,14 @@ private_route53_zone = aws.route53.Zone("private",
       }
     )
 
+"""
 registry_record = aws.route53.Record("registry-record",
     zone_id=private_route53_zone.id,
     name="registry",
     type="A",
     records=registry_host.id
 )
-
+"""
 
 
 
