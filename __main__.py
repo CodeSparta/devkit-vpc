@@ -411,7 +411,7 @@ bastion_host=aws.ec2.Instance("bastion",
         volume_size=120,
     )],
     root_device_name="/dev/xvda",
-    virtualization_type="hvm")
+    virtualization_type="hvm",
   tags={
     "Name": config.require('cluster_name') + "-bastion",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
