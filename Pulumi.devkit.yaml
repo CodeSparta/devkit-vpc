@@ -5,7 +5,7 @@ config:
   vpc:cluster_domain: redhat.io
   vpc:rhel8_ami: ami-d281d2b3
   vpc:bastion_type: t2.xlarge
-  vpc:rhcos_ami:
+  vpc:rhcos_ami: ami-058d6652e03fc0fc1
   vpc:aws_ssh_key:
   vpc:aws_public_key:
   vpc:vpc_cidr_block: 10.0.0.0/16
@@ -18,3 +18,17 @@ config:
   - 10.0.1.0/24
   - 10.0.2.0/24
   - 10.0.3.0/24
+
+# Offical RHCOS Images on AWS GovCloud https://access.redhat.com/solutions/6275921
+#us-gov-east-1
+#  rhcos-4.6.1 => ami-05ddda6fc0881a377
+#  rhcos-4.6.8 => ami-0e8bd7e61ce2ae674
+#  rhcos-4.7.0 => ami-037a0b079b6aa5ef8
+#  rhcos-4.7.7 => ami-0d21a37b17f21ae6b
+#  rhcos-4.8.2 => ami-0bae2581da0f8ce7b
+#us-gov-west-1
+#  rhcos-4.6.1 => ami-066f96e89612931de
+#  rhcos-4.6.8 => ami-0bafa78e4d8d55c5b
+#  rhcos-4.7.0 => ami-0707a08d04b4fe7dd
+#  rhcos-4.7.7 => ami-09b3361e26b50b35f
+#  rhcos-4.8.2 => ami-058d6652e03fc0fc1
