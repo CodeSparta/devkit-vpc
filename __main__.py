@@ -434,10 +434,15 @@ registry_host=aws.ec2.Instance("registry",
     )
 
 private_route53_zone = aws.route53.Zone("private",
+    name=config.require('cluster_name') + "." + config.require('cluster_domain'),
     vpcs=[aws.route53.ZoneVpcArgs(
-    vpc_id=shared_vpc.id
-    name=config.require('cluster_name') + "." + config.require('cluster_domain')
-)])
+      vpc_id=shared_vpc.id
+      )],
+  tags={
+    "Name": config.require('cluster_name') + "." + config.require('cluster_domain'),
+    "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
+      }
+    )
 
 
 
