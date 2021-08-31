@@ -436,6 +436,7 @@ registry_host=aws.ec2.Instance("registry",
 private_route53_zone = aws.route53.Zone("private",
     vpcs=[aws.route53.ZoneVpcArgs(
     vpc_id=shared_vpc.id
+    name=config.require('cluster_name') + "." + config.require('cluster_domain')
 )])
 
 
