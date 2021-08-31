@@ -403,7 +403,7 @@ worker_instance_profile.append(worker_profile.id)
 bastion_host=aws.ec2.Instance("bastion",
     ami=config.require('rhel8_ami'),
     instance_type=config.require('bastion_type'),
-    subnet_id=public_subnet.id[0],
+    subnet_id=[public_subnet.id],
     vpc_security_group_ids=[bastion_sg.id],
 #    key_name=config.require('aws_ssh_key'),
     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
@@ -415,25 +415,6 @@ bastion_host=aws.ec2.Instance("bastion",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
