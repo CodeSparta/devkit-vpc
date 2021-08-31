@@ -406,12 +406,10 @@ bastion_host=aws.ec2.Instance("bastion",
     subnet_id=public_subnet.id,
     security_groups=bastion_sg.id,
 #    key_name=config.require('aws_ssh_key'),
-    ebs_block_devices=[aws.ec2.AmiEbsBlockDeviceArgs(
+    root_block_device=[aws.ec2.AmiEbsBlockDeviceArgs(
         device_name="/dev/xvda",
-        volume_size=120,
+        volume_size=120
     )],
-    root_device_name="/dev/xvda",
-    virtualization_type="hvm",
   tags={
     "Name": config.require('cluster_name') + "-bastion",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
