@@ -446,10 +446,10 @@ private_route53_zone = aws.route53.Zone("private",
 
 registry_record = aws.route53.Record("registry-record",
     zone_id=private_route53_zone.id,
-    name="registry"
+    name="registry",
     type="A",
-    ttl="300"
-    records=registry_host.private_ip.id 
+    ttl="300",
+    records=registry_host.private_ip.id
 )
 
 
