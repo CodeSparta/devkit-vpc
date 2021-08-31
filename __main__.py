@@ -172,7 +172,7 @@ bootstrap_sg = aws.ec2.SecurityGroup(
 
 #bastion security group
 bastion_sg = aws.ec2.SecurityGroup(
-    config.require('cluster_name') + "bastion-sg",
+    config.require('cluster_name') + "-bastion-sg",
     vpc_id=shared_vpc.id,
     description="VPC bastion SG",
     ingress=[
