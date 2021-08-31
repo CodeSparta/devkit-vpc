@@ -404,10 +404,9 @@ bastion_host=aws.ec2.Instance("bastion",
     ami=config.require('rhel8_ami'),
     instance_type=config.require('bastion_type'),
     subnet_id=public_subnet.id[0],
-    security_groups=bastion_sg.id,
+    vpcSecuritygroupIds=bastion_sg.id,
 #    key_name=config.require('aws_ssh_key'),
     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
-        device_name="/dev/xvda",
         volume_size=120,
         volume_type="gp3"
     ),
