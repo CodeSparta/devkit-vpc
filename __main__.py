@@ -448,7 +448,6 @@ registry_record = aws.route53.Record("registry-record",
     zone_id=private_route53_zone.id,
     name="registry",
     type="A",
-    ttl="300",
     records=registry_host.id
 )
 
