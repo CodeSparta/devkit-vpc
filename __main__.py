@@ -406,7 +406,7 @@ bastion_host=aws.ec2.Instance("bastion",
     subnet_id=public_subnet.id,
     security_groups=bastion_sg.id,
 #    key_name=config.require('aws_ssh_key'),
-    root_block_device=[aws.ec2.AmiEbsBlockDeviceArgs(
+    root_block_device=[aws.ec2.AmiRootBlockDeviceArgs(
         device_name="/dev/xvda",
         volume_size=120
     )],
