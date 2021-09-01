@@ -248,13 +248,14 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
       }
     )
 
+"""
 # Need to gather more information, currently cannot get more than 1 subnet per interface assigned...Pulumi slack, waiting for responses
 # EC2 endpoint
 ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
     vpc_endpoint_type="Interface",
-    subnet_ids=private_subnet.subnet_ids,
+    subnet_ids=private_subnet.id,
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
@@ -262,7 +263,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
       }
     )
 
-"""
+
 sn_ec2_1 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_1",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
     subnet_id=private_subnet.id['1']
