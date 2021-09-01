@@ -283,7 +283,6 @@ sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
 
 
 
-"""
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
