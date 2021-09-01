@@ -263,7 +263,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     )
 
 sn_ec2 = list()
-for index, priv_subnet_id in enumerate(private_subnet_ids[0-2]):
+for index, priv_subnet_id in enumerate(private_subnet_ids:
     sn_ec2[index] = aws.ec2.VpcEndpointSubnetAssociation("snEc2",
         vpc_endpoint_id=ec2_vpc_endpoint.id,
         subnet_id=priv_subnet_id
