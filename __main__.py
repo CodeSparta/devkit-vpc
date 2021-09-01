@@ -262,6 +262,15 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
       }
     )
 
+sn_ec2 = list()  # define variable in global scope
+for index, priv_subnet_id in enumerate(private_subnet_ids):
+    result = aws.ec2.VpcEndpointSubnetAssociation("snEc2",
+        vpc_endpoint_id=ec2_vpc_endpoint.id,
+        subnet_id=priv_subnet_id
+        )
+    sn_ec2.append(result)
+
+"""    
 sn_ec2_0 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_0",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
     subnet_id=private_subnet_ids[0]
@@ -279,7 +288,6 @@ sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
     )
 
 
-"""
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
