@@ -265,15 +265,15 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
 
 sn_ec2_1 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_1",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=private_subnet.id
+    subnet_id=private_subnet_ids[0]
     )
 
-
+"""
 sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
     subnet_id=private_subnet.id
     )
-"""
+
 
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
