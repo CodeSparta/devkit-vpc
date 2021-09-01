@@ -255,6 +255,7 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
     service_name="com.amazonaws.us-gov-west-1.ec2",
     vpc_endpoint_type="Interface",
+    subnet_ids=private_subnet_ids[0],
     security_group_ids=[endpoint_sg.id],
     tags={
         "Name": config.require('cluster_name') + "-ec2-endpoint",
@@ -262,27 +263,20 @@ ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
       }
     )
 
-sn_ec2 = list()
-for index, priv_subnet_id in enumerate(private_subnet_ids):
-    sn_ec2[index] = aws.ec2.VpcEndpointSubnetAssociation("snEc2",
-        vpc_endpoint_id=ec2_vpc_endpoint.id,
-        subnet_id=append(private_subnet_ids)
-        )
 
-"""
 sn_ec2_1 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_1",
-    vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=private_subnet_ids[0]
-    )
-
-
-sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
     vpc_endpoint_id=ec2_vpc_endpoint.id,
     subnet_id=private_subnet_ids[1]
     )
 
 
+sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
+    vpc_endpoint_id=ec2_vpc_endpoint.id,
+    subnet_id=private_subnet_ids[2]
+    )
 
+
+"""
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
     vpc_id=shared_vpc.id,
