@@ -6,8 +6,8 @@ config:
   vpc:rhel8_ami: ami-d281d2b3
   vpc:bastion_type: t2.xlarge
   vpc:rhcos_ami: ami-058d6652e03fc0fc1
-  vpc:aws_ssh_key:
-  vpc:aws_public_key:
+  vpc:aws_ssh_key: jon
+  vpc:aws_public_key: a
   vpc:vpc_cidr_block: 10.0.0.0/16
   vpc:zones_amount: 3
   vpc:public_subnet_cidrs:

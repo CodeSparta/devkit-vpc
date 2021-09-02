@@ -396,7 +396,7 @@ bastion_host=aws.ec2.Instance("bastion",
     instance_type=config.require('bastion_type'),
     subnet_id=public_subnet.id,
     vpc_security_group_ids=[bastion_sg.id],
-#    key_name=config.require('aws_ssh_key'),
+    key_name=config.require('aws_ssh_key'),
     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
         volume_size=120,
         volume_type="gp3"
@@ -408,6 +408,8 @@ bastion_host=aws.ec2.Instance("bastion",
     )
 
 # Create coreos registry node
+data={"ignition": {"version":"3.1.0"},"passwd":{"users":[{"name": "core","passwordHash": config.require('aws_public_key'),"sshAuthorizedKeys":[""]}]}}
+
 registry_host=aws.ec2.Instance("registry",
     ami=config.require('rhcos_ami'),
     instance_type=config.require('bastion_type'),
@@ -417,7 +419,7 @@ registry_host=aws.ec2.Instance("registry",
         volume_size=120,
         volume_type="gp3"
     ),
-    user_data={"ignition": {"version":"3.1.0"},"passwd":{"users":[{"name": "core","passwordHash": config.require('aws_public_key'),"sshAuthorizedKeys":[""]}]}},
+    user_data=data,
   tags={
     "Name": config.require('cluster_name') + "-registry-node",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
