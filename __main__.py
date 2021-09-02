@@ -285,11 +285,11 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
 
 sn_elb = list()  # define variable in global scope
 for index, priv_subnet_id in enumerate(private_subnet_ids):
-    result = aws.ec2.VpcEndpointSubnetAssociation(f"snElb_{index}",
+    result = aws.ec2.VpcEndpointSubnetAssociation(f"snelb_{index}",
         vpc_endpoint_id=elb_vpc_endpoint.id,
         subnet_id=priv_subnet_id
         )
-    sn_Elb.append(result)
+    sn_elb.append(result)
 
 # Create IAM Roles, Policies and attachements
 master_role = aws.iam.Role("master_role",
