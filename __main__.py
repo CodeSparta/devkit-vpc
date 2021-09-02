@@ -269,23 +269,6 @@ for index, priv_subnet_id in enumerate(private_subnet_ids):
         subnet_id=priv_subnet_id
         )
     sn_ec2.append(result)
-"""
-sn_ec2_0 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_0",
-    vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=private_subnet_ids[0]
-    )
-
-sn_ec2_1 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_1",
-    vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=private_subnet_ids[1]
-    )
-
-
-sn_ec2_2 = aws.ec2.VpcEndpointSubnetAssociation("snEc2_2",
-    vpc_endpoint_id=ec2_vpc_endpoint.id,
-    subnet_id=private_subnet_ids[2]
-    )
-
 
 # ELB endpoint
 elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
@@ -300,16 +283,13 @@ elb_vpc_endpoint = aws.ec2.VpcEndpoint("elb",
       }
     )
 
-sn_elb_1 = aws.ec2.VpcEndpointSubnetAssociation("snElb_1",
-    vpc_endpoint_id=elb_vpc_endpoint.id,
-    subnet_id=private_subnet.id[1]
-    )
-
-sn_elb_2 = aws.ec2.VpcEndpointSubnetAssociation("snElb_2",
-    vpc_endpoint_id=elb_vpc_endpoint.id,
-    subnet_id=private_subnet.id[2]
-    )
-"""
+sn_elb = list()  # define variable in global scope
+for index, priv_subnet_id in enumerate(private_subnet_ids):
+    result = aws.ec2.VpcEndpointSubnetAssociation(f"snElb_{index}",
+        vpc_endpoint_id=elb_vpc_endpoint.id,
+        subnet_id=priv_subnet_id
+        )
+    sn_Elb.append(result)
 
 # Create IAM Roles, Policies and attachements
 master_role = aws.iam.Role("master_role",
