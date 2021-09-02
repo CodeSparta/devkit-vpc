@@ -419,7 +419,7 @@ registry_host=aws.ec2.Instance("registry",
         volume_size=120,
         volume_type="gp3"
     ),
-    user_data='{\"ignition\": {\"version\":\"3.1.0\"},\"passwd\":{\"users\":[{\"name\": \"core\",\"passwordHash\": \"\",\"sshAuthorizedKeys\":[\"'{aws_key_string}'\"]}]}}',
+    user_data='{"ignition": {"version":"3.1.0"},"passwd":{"users":[{"name": "core","passwordHash": "","sshAuthorizedKeys":[{aws_key_string}]}]}}',
   tags={
     "Name": config.require('cluster_name') + "-registry-node",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
