@@ -13,6 +13,7 @@ cluster_name = config.require('cluster_name')
 zones_amount = config.require_int("zones_amount")
 zones = utils.get_aws_az(zones_amount)
 vpc_cidr_block = config.require('vpc_cidr_block')
+aws_key_string = config.require('aws_public_key')
 
 # Create the base VPC
 shared_vpc = aws.ec2.Vpc(
@@ -418,7 +419,7 @@ registry_host=aws.ec2.Instance("registry",
         volume_size=120,
         volume_type="gp3"
     ),
-    user_data='{\"ignition\": {\"version\":\"3.1.0\"},\"passwd\":{\"users\":[{\"name\": \"core\",\"passwordHash\": \"\",\"sshAuthorizedKeys\":[\"aaa\"]}]}}',
+    user_data='{\"ignition\": {\"version\":\"3.1.0\"},\"passwd\":{\"users\":[{\"name\": \"core\",\"passwordHash\": \"\",\"sshAuthorizedKeys\":[\"{aws_key_string}\"]}]}}',
   tags={
     "Name": config.require('cluster_name') + "-registry-node",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
