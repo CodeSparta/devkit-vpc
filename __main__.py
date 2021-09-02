@@ -409,7 +409,7 @@ bastion_host=aws.ec2.Instance("bastion",
     )
 
 # Create coreos registry node
-registry_data={"ignition": {"version":"3.1.0"},"passwd":{"users":[{"name": "core","passwordHash": "","sshAuthorizedKeys":[config.require('aws_public_key')]}]}}
+registry_data='{"ignition": {"version":"3.1.0"},"passwd":{"users":[{"name": "core","passwordHash": "","sshAuthorizedKeys":[config.require('aws_public_key')]}]}}'
 
 registry_host=aws.ec2.Instance("registry",
     ami=config.require('rhcos_ami'),
