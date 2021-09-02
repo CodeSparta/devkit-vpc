@@ -420,7 +420,7 @@ registry_host=aws.ec2.Instance("registry",
         volume_size=120,
         volume_type="gp3"
     ),
-    user_data='registry_data',
+    user_data=registry_data,
   tags={
     "Name": config.require('cluster_name') + "-registry-node",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
