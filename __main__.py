@@ -248,8 +248,6 @@ s3_vpc_endpoint = aws.ec2.VpcEndpoint("s3",
       }
     )
 
-
-# Need to gather more information, currently cannot get more than 1 subnet per interface assigned...Pulumi slack, waiting for responses
 # EC2 endpoint
 ec2_vpc_endpoint = aws.ec2.VpcEndpoint("ec2",
     vpc_id=shared_vpc.id,
@@ -415,7 +413,6 @@ registry_host=aws.ec2.Instance("registry",
     instance_type=config.require('bastion_type'),
     subnet_id=private_subnet.id,
     vpc_security_group_ids=[master_sg.id],
-#    key_name=config.require('aws_ssh_key'),
     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
         volume_size=120,
         volume_type="gp3"
@@ -426,6 +423,7 @@ registry_host=aws.ec2.Instance("registry",
       }
     )
 
+# Create route53 private hosted zone with registry record
 private_route53_zone = aws.route53.Zone("private",
     name=config.require('cluster_name') + "." + config.require('cluster_domain'),
     vpcs=[aws.route53.ZoneVpcArgs(
@@ -437,7 +435,6 @@ private_route53_zone = aws.route53.Zone("private",
       }
     )
 
-
 registry_record = aws.route53.Record("registry-record",
     zone_id=private_route53_zone.id,
     name="registry",
@@ -445,8 +442,6 @@ registry_record = aws.route53.Record("registry-record",
     ttl=300,
     records=[registry_host.private_ip]
 )
-
-
 
 
 pulumi.export("pulumi-az-amount", zones_amount)
