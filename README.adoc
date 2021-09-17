@@ -1,7 +1,7 @@
 # Development-IaC
 
 == Summary
-This terraform play is designed to create a working development VPC for the user. It will create the following resources:
+This Pulumi play is designed to create a working development VPC for the user. It will create the following resources:
 
 - Three Public subnets
 - Three Private subnets "no nat to simulate airgapped"
@@ -14,7 +14,7 @@ This terraform play is designed to create a working development VPC for the user
 - Registry ec2 Instance
 
 == Requirement
-- Setup your aws credentials 
+- Setup your aws credentials
 
 == Setup the variable file
 .Table Mandatory Variables
@@ -53,18 +53,6 @@ This terraform play is designed to create a working development VPC for the user
 |us-gov-west-1
 |Aws region
 
-|default_tag
-|
-|Leave blank it will us the cluster_name to set tags
-
-|aws_azs
-|"a", "b", "c"
-|This will align with the aws availability zones
-
-|aws_availability_zones
-|us-gov-west-1a
-|This is the AZ for the public subnet
-
 |vpc_private_subnet_cidrs
 |"10.0.1.0/24","10.0.2.0/24","10.0.3.0/24
 |Private CIDR block
@@ -81,31 +69,35 @@ The user will need to provide the following:
 
 - Aws ssh key for the bastion
 - AMI Ids for Rhel 8 and Rhcos images
+- Podman
 
-== Build
+- setup your Pulumi variables
+```
+vi Pulumi.devkit.yaml
+```
+
+== Build an deploy
 - download git repo:
 ```
-mkdir devkit-vpc
-
-podman run -it --rm -v $(pwd)/devkit-vpc:/clone:z \
-  quay.io/cloudctl/git --branch v00.21.0203 https://github.com/CodeSparta/devkit-vpc.git
-
 cd devkit-vpc
-```
 
-- setup your variables.tf
-```
-vi variables.tf
-```
+bash tools/dev.sh
+aws configure
 
-- deploy
+pulumi login file:///$PWD/state
+pulumi stack
+  - devkit
+  - enter a passphrase "don't leave this empty"
+
+pulumi up
+  - select devkit
+  - enter a passphrase
+
+
 ```
-./devkit-build-vpc.sh -vv -e aws_cloud_region=us-gov-west-1 -e aws_access_key=xxxxxxxxxxxxx -e aws_secret_key=XXXXXXXXXXXXXXXXX
-```
-    
 
 == Destroy
 - all resources not created from the IaC must be deleted prior to destroying the vpc.
 ```
-./devkit-destroy-vpc.sh
+pulumi destroy
 ```
