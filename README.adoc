@@ -99,5 +99,9 @@ pulumi up
 == Destroy
 - all resources not created from the IaC must be deleted prior to destroying the vpc.
 ```
+cd devkit-vpc
+
+bash tools/dev.sh
+export PULUMI_CONFIG_PASSPHRASE="you passphrase"
 pulumi destroy
 ```
