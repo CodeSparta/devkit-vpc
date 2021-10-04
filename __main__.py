@@ -414,7 +414,6 @@ registry_host=aws.ec2.Instance("registry",
     ami=config.require('rhcos_ami'),
     instance_type=config.require('bastion_type'),
     subnet_id=private_subnet.id,
-    associate_public_ip_address=true,
     vpc_security_group_ids=[master_sg.id],
     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
         volume_size=120,
@@ -426,6 +425,13 @@ registry_host=aws.ec2.Instance("registry",
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
       }
     )
+
+# Single EIP associated with Registry instances
+
+eip=aws.ec2.Eip("eip",
+  instance=registry_host.id,
+  vpc=True 
+)
 
 # Create route53 private hosted zone with registry record
 private_route53_zone = aws.route53.Zone("private",
