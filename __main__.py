@@ -91,7 +91,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         cidr_block=public_subnet_cidr,
         availability_zone=zone,
         tags={
-        "Name": f"{cluster_name}-public-subnet-{zone}",
+        "Name": f"{cluster_name}-public-{zone}",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
         },
 
@@ -113,7 +113,7 @@ for zone, public_subnet_cidr, private_subnet_cidr in zip(
         cidr_block=private_subnet_cidr,
         availability_zone=zone,
         tags={
-        "Name": f"{cluster_name}-private-subnet-{zone}",
+        "Name": f"{cluster_name}-private-{zone}",
         "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
         },
     )
@@ -430,7 +430,7 @@ registry_host=aws.ec2.Instance("registry",
 
 eip=aws.ec2.Eip("eip",
   instance=registry_host.id,
-  vpc=True 
+  vpc=True
 )
 
 # Create route53 private hosted zone with registry record
