@@ -22,6 +22,7 @@ shared_vpc = aws.ec2.Vpc(
     cidr_block=config.require('vpc_cidr_block'),
     enable_dns_hostnames=True,
     enable_dns_support=True,
+    assign_generated_ipv6_cidr_block=False,
     tags={
     "Name": config.require('cluster_name'),
     "kubernetes.io/cluster/" + config.require('cluster_name'): "owned"
